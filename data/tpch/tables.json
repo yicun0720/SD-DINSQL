@@ -1,0 +1,637 @@
+[
+  {
+    "column_names": [
+      [
+        -1,
+        "*"
+      ],
+      [
+        0,
+        "r regionkey"
+      ],
+      [
+        0,
+        "r name"
+      ],
+      [
+        0,
+        "r comment"
+      ],
+      [
+        1,
+        "n nationkey"
+      ],
+      [
+        1,
+        "n name"
+      ],
+      [
+        1,
+        "n regionkey"
+      ],
+      [
+        1,
+        "n comment"
+      ],
+      [
+        2,
+        "p partkey"
+      ],
+      [
+        2,
+        "p name"
+      ],
+      [
+        2,
+        "p mfgr"
+      ],
+      [
+        2,
+        "p brand"
+      ],
+      [
+        2,
+        "p type"
+      ],
+      [
+        2,
+        "p size"
+      ],
+      [
+        2,
+        "p container"
+      ],
+      [
+        2,
+        "p retailprice"
+      ],
+      [
+        2,
+        "p comment"
+      ],
+      [
+        3,
+        "s suppkey"
+      ],
+      [
+        3,
+        "s name"
+      ],
+      [
+        3,
+        "s address"
+      ],
+      [
+        3,
+        "s nationkey"
+      ],
+      [
+        3,
+        "s phone"
+      ],
+      [
+        3,
+        "s acctbal"
+      ],
+      [
+        3,
+        "s comment"
+      ],
+      [
+        4,
+        "ps partkey"
+      ],
+      [
+        4,
+        "ps suppkey"
+      ],
+      [
+        4,
+        "ps availqty"
+      ],
+      [
+        4,
+        "ps supplycost"
+      ],
+      [
+        4,
+        "ps comment"
+      ],
+      [
+        5,
+        "c custkey"
+      ],
+      [
+        5,
+        "c name"
+      ],
+      [
+        5,
+        "c address"
+      ],
+      [
+        5,
+        "c nationkey"
+      ],
+      [
+        5,
+        "c phone"
+      ],
+      [
+        5,
+        "c acctbal"
+      ],
+      [
+        5,
+        "c mktsegment"
+      ],
+      [
+        5,
+        "c comment"
+      ],
+      [
+        6,
+        "o orderkey"
+      ],
+      [
+        6,
+        "o custkey"
+      ],
+      [
+        6,
+        "o orderstatus"
+      ],
+      [
+        6,
+        "o totalprice"
+      ],
+      [
+        6,
+        "o orderdate"
+      ],
+      [
+        6,
+        "o orderpriority"
+      ],
+      [
+        6,
+        "o clerk"
+      ],
+      [
+        6,
+        "o shippriority"
+      ],
+      [
+        6,
+        "o comment"
+      ],
+      [
+        7,
+        "l orderkey"
+      ],
+      [
+        7,
+        "l partkey"
+      ],
+      [
+        7,
+        "l suppkey"
+      ],
+      [
+        7,
+        "l linenumber"
+      ],
+      [
+        7,
+        "l quantity"
+      ],
+      [
+        7,
+        "l extendedprice"
+      ],
+      [
+        7,
+        "l discount"
+      ],
+      [
+        7,
+        "l tax"
+      ],
+      [
+        7,
+        "l returnflag"
+      ],
+      [
+        7,
+        "l linestatus"
+      ],
+      [
+        7,
+        "l shipdate"
+      ],
+      [
+        7,
+        "l commitdate"
+      ],
+      [
+        7,
+        "l receiptdate"
+      ],
+      [
+        7,
+        "l shipinstruct"
+      ],
+      [
+        7,
+        "l shipmode"
+      ],
+      [
+        7,
+        "l comment"
+      ]
+    ],
+    "column_names_original": [
+      [
+        -1,
+        "*"
+      ],
+      [
+        0,
+        "r_regionkey"
+      ],
+      [
+        0,
+        "r_name"
+      ],
+      [
+        0,
+        "r_comment"
+      ],
+      [
+        1,
+        "n_nationkey"
+      ],
+      [
+        1,
+        "n_name"
+      ],
+      [
+        1,
+        "n_regionkey"
+      ],
+      [
+        1,
+        "n_comment"
+      ],
+      [
+        2,
+        "p_partkey"
+      ],
+      [
+        2,
+        "p_name"
+      ],
+      [
+        2,
+        "p_mfgr"
+      ],
+      [
+        2,
+        "p_brand"
+      ],
+      [
+        2,
+        "p_type"
+      ],
+      [
+        2,
+        "p_size"
+      ],
+      [
+        2,
+        "p_container"
+      ],
+      [
+        2,
+        "p_retailprice"
+      ],
+      [
+        2,
+        "p_comment"
+      ],
+      [
+        3,
+        "s_suppkey"
+      ],
+      [
+        3,
+        "s_name"
+      ],
+      [
+        3,
+        "s_address"
+      ],
+      [
+        3,
+        "s_nationkey"
+      ],
+      [
+        3,
+        "s_phone"
+      ],
+      [
+        3,
+        "s_acctbal"
+      ],
+      [
+        3,
+        "s_comment"
+      ],
+      [
+        4,
+        "ps_partkey"
+      ],
+      [
+        4,
+        "ps_suppkey"
+      ],
+      [
+        4,
+        "ps_availqty"
+      ],
+      [
+        4,
+        "ps_supplycost"
+      ],
+      [
+        4,
+        "ps_comment"
+      ],
+      [
+        5,
+        "c_custkey"
+      ],
+      [
+        5,
+        "c_name"
+      ],
+      [
+        5,
+        "c_address"
+      ],
+      [
+        5,
+        "c_nationkey"
+      ],
+      [
+        5,
+        "c_phone"
+      ],
+      [
+        5,
+        "c_acctbal"
+      ],
+      [
+        5,
+        "c_mktsegment"
+      ],
+      [
+        5,
+        "c_comment"
+      ],
+      [
+        6,
+        "o_orderkey"
+      ],
+      [
+        6,
+        "o_custkey"
+      ],
+      [
+        6,
+        "o_orderstatus"
+      ],
+      [
+        6,
+        "o_totalprice"
+      ],
+      [
+        6,
+        "o_orderdate"
+      ],
+      [
+        6,
+        "o_orderpriority"
+      ],
+      [
+        6,
+        "o_clerk"
+      ],
+      [
+        6,
+        "o_shippriority"
+      ],
+      [
+        6,
+        "o_comment"
+      ],
+      [
+        7,
+        "l_orderkey"
+      ],
+      [
+        7,
+        "l_partkey"
+      ],
+      [
+        7,
+        "l_suppkey"
+      ],
+      [
+        7,
+        "l_linenumber"
+      ],
+      [
+        7,
+        "l_quantity"
+      ],
+      [
+        7,
+        "l_extendedprice"
+      ],
+      [
+        7,
+        "l_discount"
+      ],
+      [
+        7,
+        "l_tax"
+      ],
+      [
+        7,
+        "l_returnflag"
+      ],
+      [
+        7,
+        "l_linestatus"
+      ],
+      [
+        7,
+        "l_shipdate"
+      ],
+      [
+        7,
+        "l_commitdate"
+      ],
+      [
+        7,
+        "l_receiptdate"
+      ],
+      [
+        7,
+        "l_shipinstruct"
+      ],
+      [
+        7,
+        "l_shipmode"
+      ],
+      [
+        7,
+        "l_comment"
+      ]
+    ],
+    "column_types": [
+      "text",
+      "number",
+      "text",
+      "text",
+      "number",
+      "text",
+      "number",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "number",
+      "text",
+      "number",
+      "text",
+      "text",
+      "number",
+      "text",
+      "number",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "number",
+      "text",
+      "text",
+      "number",
+      "text",
+      "number",
+      "text",
+      "text",
+      "number",
+      "number",
+      "text",
+      "number",
+      "time",
+      "text",
+      "text",
+      "number",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "time",
+      "time",
+      "time",
+      "text",
+      "text",
+      "text"
+    ],
+    "db_id": "tpch",
+    "foreign_keys": [
+      [
+        6,
+        1
+      ],
+      [
+        20,
+        4
+      ],
+      [
+        25,
+        17
+      ],
+      [
+        24,
+        8
+      ],
+      [
+        32,
+        4
+      ],
+      [
+        38,
+        29
+      ],
+      [
+        47,
+        24
+      ],
+      [
+        48,
+        25
+      ],
+      [
+        46,
+        37
+      ]
+    ],
+    "primary_keys": [
+      1,
+      4,
+      8,
+      17,
+      24,
+      29,
+      37,
+      46
+    ],
+    "table_names": [
+      "region",
+      "nation",
+      "part",
+      "supplier",
+      "partsupp",
+      "customer",
+      "orders",
+      "lineitem"
+    ],
+    "table_names_original": [
+      "region",
+      "nation",
+      "part",
+      "supplier",
+      "partsupp",
+      "customer",
+      "orders",
+      "lineitem"
+    ]
+  }
+]

@@ -1,0 +1,3522 @@
+[
+  {
+    "column_names": [
+      [
+        -1,
+        "*"
+      ],
+      [
+        0,
+        "c customer sk"
+      ],
+      [
+        0,
+        "c customer id"
+      ],
+      [
+        0,
+        "c current cdemo sk"
+      ],
+      [
+        0,
+        "c current hdemo sk"
+      ],
+      [
+        0,
+        "c current addr sk"
+      ],
+      [
+        0,
+        "c first shipto date sk"
+      ],
+      [
+        0,
+        "c first sales date sk"
+      ],
+      [
+        0,
+        "c salutation"
+      ],
+      [
+        0,
+        "c first name"
+      ],
+      [
+        0,
+        "c last name"
+      ],
+      [
+        0,
+        "c preferred cust flag"
+      ],
+      [
+        0,
+        "c birth day"
+      ],
+      [
+        0,
+        "c birth month"
+      ],
+      [
+        0,
+        "c birth year"
+      ],
+      [
+        0,
+        "c birth country"
+      ],
+      [
+        0,
+        "c login"
+      ],
+      [
+        0,
+        "c email address"
+      ],
+      [
+        0,
+        "c last review date"
+      ],
+      [
+        1,
+        "ca address sk"
+      ],
+      [
+        1,
+        "ca address id"
+      ],
+      [
+        1,
+        "ca street number"
+      ],
+      [
+        1,
+        "ca street name"
+      ],
+      [
+        1,
+        "ca street type"
+      ],
+      [
+        1,
+        "ca suite number"
+      ],
+      [
+        1,
+        "ca city"
+      ],
+      [
+        1,
+        "ca county"
+      ],
+      [
+        1,
+        "ca state"
+      ],
+      [
+        1,
+        "ca zip"
+      ],
+      [
+        1,
+        "ca country"
+      ],
+      [
+        1,
+        "ca gmt offset"
+      ],
+      [
+        1,
+        "ca location type"
+      ],
+      [
+        2,
+        "cd demo sk"
+      ],
+      [
+        2,
+        "cd gender"
+      ],
+      [
+        2,
+        "cd marital status"
+      ],
+      [
+        2,
+        "cd education status"
+      ],
+      [
+        2,
+        "cd purchase estimate"
+      ],
+      [
+        2,
+        "cd credit rating"
+      ],
+      [
+        2,
+        "cd dep count"
+      ],
+      [
+        2,
+        "cd dep employed count"
+      ],
+      [
+        2,
+        "cd dep college count"
+      ],
+      [
+        3,
+        "d date sk"
+      ],
+      [
+        3,
+        "d date id"
+      ],
+      [
+        3,
+        "d date"
+      ],
+      [
+        3,
+        "d month seq"
+      ],
+      [
+        3,
+        "d week seq"
+      ],
+      [
+        3,
+        "d quarter seq"
+      ],
+      [
+        3,
+        "d year"
+      ],
+      [
+        3,
+        "d dow"
+      ],
+      [
+        3,
+        "d moy"
+      ],
+      [
+        3,
+        "d dom"
+      ],
+      [
+        3,
+        "d qoy"
+      ],
+      [
+        3,
+        "d fy year"
+      ],
+      [
+        3,
+        "d fy quarter seq"
+      ],
+      [
+        3,
+        "d fy week seq"
+      ],
+      [
+        3,
+        "d day name"
+      ],
+      [
+        3,
+        "d quarter name"
+      ],
+      [
+        3,
+        "d holiday"
+      ],
+      [
+        3,
+        "d weekend"
+      ],
+      [
+        3,
+        "d following holiday"
+      ],
+      [
+        3,
+        "d first dom"
+      ],
+      [
+        3,
+        "d last dom"
+      ],
+      [
+        3,
+        "d same day ly"
+      ],
+      [
+        3,
+        "d same day lq"
+      ],
+      [
+        3,
+        "d current day"
+      ],
+      [
+        3,
+        "d current week"
+      ],
+      [
+        3,
+        "d current month"
+      ],
+      [
+        3,
+        "d current quarter"
+      ],
+      [
+        3,
+        "d current year"
+      ],
+      [
+        4,
+        "hd demo sk"
+      ],
+      [
+        4,
+        "hd income band sk"
+      ],
+      [
+        4,
+        "hd buy potential"
+      ],
+      [
+        4,
+        "hd dep count"
+      ],
+      [
+        4,
+        "hd vehicle count"
+      ],
+      [
+        5,
+        "ib income band sk"
+      ],
+      [
+        5,
+        "ib lower bound"
+      ],
+      [
+        5,
+        "ib upper bound"
+      ],
+      [
+        6,
+        "i item sk"
+      ],
+      [
+        6,
+        "i item id"
+      ],
+      [
+        6,
+        "i rec start date"
+      ],
+      [
+        6,
+        "i rec end date"
+      ],
+      [
+        6,
+        "i item desc"
+      ],
+      [
+        6,
+        "i current price"
+      ],
+      [
+        6,
+        "i wholesale cost"
+      ],
+      [
+        6,
+        "i brand id"
+      ],
+      [
+        6,
+        "i brand"
+      ],
+      [
+        6,
+        "i class id"
+      ],
+      [
+        6,
+        "i class"
+      ],
+      [
+        6,
+        "i category id"
+      ],
+      [
+        6,
+        "i category"
+      ],
+      [
+        6,
+        "i manufact id"
+      ],
+      [
+        6,
+        "i manufact"
+      ],
+      [
+        6,
+        "i size"
+      ],
+      [
+        6,
+        "i formulation"
+      ],
+      [
+        6,
+        "i color"
+      ],
+      [
+        6,
+        "i units"
+      ],
+      [
+        6,
+        "i container"
+      ],
+      [
+        6,
+        "i manager id"
+      ],
+      [
+        6,
+        "i product name"
+      ],
+      [
+        7,
+        "p promo sk"
+      ],
+      [
+        7,
+        "p promo id"
+      ],
+      [
+        7,
+        "p start date sk"
+      ],
+      [
+        7,
+        "p end date sk"
+      ],
+      [
+        7,
+        "p item sk"
+      ],
+      [
+        7,
+        "p cost"
+      ],
+      [
+        7,
+        "p response target"
+      ],
+      [
+        7,
+        "p promo name"
+      ],
+      [
+        7,
+        "p channel dmail"
+      ],
+      [
+        7,
+        "p channel email"
+      ],
+      [
+        7,
+        "p channel catalog"
+      ],
+      [
+        7,
+        "p channel tv"
+      ],
+      [
+        7,
+        "p channel radio"
+      ],
+      [
+        7,
+        "p channel press"
+      ],
+      [
+        7,
+        "p channel event"
+      ],
+      [
+        7,
+        "p channel demo"
+      ],
+      [
+        7,
+        "p channel details"
+      ],
+      [
+        7,
+        "p purpose"
+      ],
+      [
+        7,
+        "p discount active"
+      ],
+      [
+        8,
+        "r reason sk"
+      ],
+      [
+        8,
+        "r reason id"
+      ],
+      [
+        8,
+        "r reason desc"
+      ],
+      [
+        9,
+        "sm ship mode sk"
+      ],
+      [
+        9,
+        "sm ship mode id"
+      ],
+      [
+        9,
+        "sm type"
+      ],
+      [
+        9,
+        "sm code"
+      ],
+      [
+        9,
+        "sm carrier"
+      ],
+      [
+        9,
+        "sm contract"
+      ],
+      [
+        10,
+        "s store sk"
+      ],
+      [
+        10,
+        "s store id"
+      ],
+      [
+        10,
+        "s rec start date"
+      ],
+      [
+        10,
+        "s rec end date"
+      ],
+      [
+        10,
+        "s closed date sk"
+      ],
+      [
+        10,
+        "s store name"
+      ],
+      [
+        10,
+        "s number employees"
+      ],
+      [
+        10,
+        "s floor space"
+      ],
+      [
+        10,
+        "s hours"
+      ],
+      [
+        10,
+        "s manager"
+      ],
+      [
+        10,
+        "s market id"
+      ],
+      [
+        10,
+        "s geography class"
+      ],
+      [
+        10,
+        "s market desc"
+      ],
+      [
+        10,
+        "s market manager"
+      ],
+      [
+        10,
+        "s division id"
+      ],
+      [
+        10,
+        "s division name"
+      ],
+      [
+        10,
+        "s company id"
+      ],
+      [
+        10,
+        "s company name"
+      ],
+      [
+        10,
+        "s street number"
+      ],
+      [
+        10,
+        "s street name"
+      ],
+      [
+        10,
+        "s street type"
+      ],
+      [
+        10,
+        "s suite number"
+      ],
+      [
+        10,
+        "s city"
+      ],
+      [
+        10,
+        "s county"
+      ],
+      [
+        10,
+        "s state"
+      ],
+      [
+        10,
+        "s zip"
+      ],
+      [
+        10,
+        "s country"
+      ],
+      [
+        10,
+        "s gmt offset"
+      ],
+      [
+        10,
+        "s tax precentage"
+      ],
+      [
+        11,
+        "t time sk"
+      ],
+      [
+        11,
+        "t time id"
+      ],
+      [
+        11,
+        "t time"
+      ],
+      [
+        11,
+        "t hour"
+      ],
+      [
+        11,
+        "t minute"
+      ],
+      [
+        11,
+        "t second"
+      ],
+      [
+        11,
+        "t am pm"
+      ],
+      [
+        11,
+        "t shift"
+      ],
+      [
+        11,
+        "t sub shift"
+      ],
+      [
+        11,
+        "t meal time"
+      ],
+      [
+        12,
+        "w warehouse sk"
+      ],
+      [
+        12,
+        "w warehouse id"
+      ],
+      [
+        12,
+        "w warehouse name"
+      ],
+      [
+        12,
+        "w warehouse sq ft"
+      ],
+      [
+        12,
+        "w street number"
+      ],
+      [
+        12,
+        "w street name"
+      ],
+      [
+        12,
+        "w street type"
+      ],
+      [
+        12,
+        "w suite number"
+      ],
+      [
+        12,
+        "w city"
+      ],
+      [
+        12,
+        "w county"
+      ],
+      [
+        12,
+        "w state"
+      ],
+      [
+        12,
+        "w zip"
+      ],
+      [
+        12,
+        "w country"
+      ],
+      [
+        12,
+        "w gmt offset"
+      ],
+      [
+        13,
+        "web site sk"
+      ],
+      [
+        13,
+        "web site id"
+      ],
+      [
+        13,
+        "web rec start date"
+      ],
+      [
+        13,
+        "web rec end date"
+      ],
+      [
+        13,
+        "web name"
+      ],
+      [
+        13,
+        "web open date sk"
+      ],
+      [
+        13,
+        "web close date sk"
+      ],
+      [
+        13,
+        "web class"
+      ],
+      [
+        13,
+        "web manager"
+      ],
+      [
+        13,
+        "web mkt id"
+      ],
+      [
+        13,
+        "web mkt class"
+      ],
+      [
+        13,
+        "web mkt desc"
+      ],
+      [
+        13,
+        "web market manager"
+      ],
+      [
+        13,
+        "web company id"
+      ],
+      [
+        13,
+        "web company name"
+      ],
+      [
+        13,
+        "web street number"
+      ],
+      [
+        13,
+        "web street name"
+      ],
+      [
+        13,
+        "web street type"
+      ],
+      [
+        13,
+        "web suite number"
+      ],
+      [
+        13,
+        "web city"
+      ],
+      [
+        13,
+        "web county"
+      ],
+      [
+        13,
+        "web state"
+      ],
+      [
+        13,
+        "web zip"
+      ],
+      [
+        13,
+        "web country"
+      ],
+      [
+        13,
+        "web gmt offset"
+      ],
+      [
+        13,
+        "web tax percentage"
+      ],
+      [
+        14,
+        "wp web page sk"
+      ],
+      [
+        14,
+        "wp web page id"
+      ],
+      [
+        14,
+        "wp rec start date"
+      ],
+      [
+        14,
+        "wp rec end date"
+      ],
+      [
+        14,
+        "wp creation date sk"
+      ],
+      [
+        14,
+        "wp access date sk"
+      ],
+      [
+        14,
+        "wp autogen flag"
+      ],
+      [
+        14,
+        "wp customer sk"
+      ],
+      [
+        14,
+        "wp url"
+      ],
+      [
+        14,
+        "wp type"
+      ],
+      [
+        14,
+        "wp char count"
+      ],
+      [
+        14,
+        "wp link count"
+      ],
+      [
+        14,
+        "wp image count"
+      ],
+      [
+        14,
+        "wp max ad count"
+      ],
+      [
+        15,
+        "inv date sk"
+      ],
+      [
+        15,
+        "inv item sk"
+      ],
+      [
+        15,
+        "inv warehouse sk"
+      ],
+      [
+        15,
+        "inv quantity on hand"
+      ],
+      [
+        16,
+        "ss sold date sk"
+      ],
+      [
+        16,
+        "ss sold time sk"
+      ],
+      [
+        16,
+        "ss item sk"
+      ],
+      [
+        16,
+        "ss customer sk"
+      ],
+      [
+        16,
+        "ss cdemo sk"
+      ],
+      [
+        16,
+        "ss hdemo sk"
+      ],
+      [
+        16,
+        "ss addr sk"
+      ],
+      [
+        16,
+        "ss store sk"
+      ],
+      [
+        16,
+        "ss promo sk"
+      ],
+      [
+        16,
+        "ss ticket number"
+      ],
+      [
+        16,
+        "ss quantity"
+      ],
+      [
+        16,
+        "ss wholesale cost"
+      ],
+      [
+        16,
+        "ss list price"
+      ],
+      [
+        16,
+        "ss sales price"
+      ],
+      [
+        16,
+        "ss ext discount amt"
+      ],
+      [
+        16,
+        "ss ext sales price"
+      ],
+      [
+        16,
+        "ss ext wholesale cost"
+      ],
+      [
+        16,
+        "ss ext list price"
+      ],
+      [
+        16,
+        "ss ext tax"
+      ],
+      [
+        16,
+        "ss coupon amt"
+      ],
+      [
+        16,
+        "ss net paid"
+      ],
+      [
+        16,
+        "ss net paid inc tax"
+      ],
+      [
+        16,
+        "ss net profit"
+      ],
+      [
+        17,
+        "sr returned date sk"
+      ],
+      [
+        17,
+        "sr return time sk"
+      ],
+      [
+        17,
+        "sr item sk"
+      ],
+      [
+        17,
+        "sr customer sk"
+      ],
+      [
+        17,
+        "sr cdemo sk"
+      ],
+      [
+        17,
+        "sr hdemo sk"
+      ],
+      [
+        17,
+        "sr addr sk"
+      ],
+      [
+        17,
+        "sr store sk"
+      ],
+      [
+        17,
+        "sr reason sk"
+      ],
+      [
+        17,
+        "sr ticket number"
+      ],
+      [
+        17,
+        "sr return quantity"
+      ],
+      [
+        17,
+        "sr return amt"
+      ],
+      [
+        17,
+        "sr return tax"
+      ],
+      [
+        17,
+        "sr return amt inc tax"
+      ],
+      [
+        17,
+        "sr fee"
+      ],
+      [
+        17,
+        "sr return ship cost"
+      ],
+      [
+        17,
+        "sr refunded cash"
+      ],
+      [
+        17,
+        "sr reversed charge"
+      ],
+      [
+        17,
+        "sr store credit"
+      ],
+      [
+        17,
+        "sr net loss"
+      ],
+      [
+        18,
+        "ws sold date sk"
+      ],
+      [
+        18,
+        "ws sold time sk"
+      ],
+      [
+        18,
+        "ws ship date sk"
+      ],
+      [
+        18,
+        "ws item sk"
+      ],
+      [
+        18,
+        "ws bill customer sk"
+      ],
+      [
+        18,
+        "ws bill cdemo sk"
+      ],
+      [
+        18,
+        "ws bill hdemo sk"
+      ],
+      [
+        18,
+        "ws bill addr sk"
+      ],
+      [
+        18,
+        "ws ship customer sk"
+      ],
+      [
+        18,
+        "ws ship cdemo sk"
+      ],
+      [
+        18,
+        "ws ship hdemo sk"
+      ],
+      [
+        18,
+        "ws ship addr sk"
+      ],
+      [
+        18,
+        "ws web page sk"
+      ],
+      [
+        18,
+        "ws web site sk"
+      ],
+      [
+        18,
+        "ws ship mode sk"
+      ],
+      [
+        18,
+        "ws warehouse sk"
+      ],
+      [
+        18,
+        "ws promo sk"
+      ],
+      [
+        18,
+        "ws order number"
+      ],
+      [
+        18,
+        "ws quantity"
+      ],
+      [
+        18,
+        "ws wholesale cost"
+      ],
+      [
+        18,
+        "ws list price"
+      ],
+      [
+        18,
+        "ws sales price"
+      ],
+      [
+        18,
+        "ws ext discount amt"
+      ],
+      [
+        18,
+        "ws ext sales price"
+      ],
+      [
+        18,
+        "ws ext wholesale cost"
+      ],
+      [
+        18,
+        "ws ext list price"
+      ],
+      [
+        18,
+        "ws ext tax"
+      ],
+      [
+        18,
+        "ws coupon amt"
+      ],
+      [
+        18,
+        "ws ext ship cost"
+      ],
+      [
+        18,
+        "ws net paid"
+      ],
+      [
+        18,
+        "ws net paid inc tax"
+      ],
+      [
+        18,
+        "ws net paid inc ship"
+      ],
+      [
+        18,
+        "ws net paid inc ship tax"
+      ],
+      [
+        18,
+        "ws net profit"
+      ],
+      [
+        19,
+        "wr returned date sk"
+      ],
+      [
+        19,
+        "wr returned time sk"
+      ],
+      [
+        19,
+        "wr item sk"
+      ],
+      [
+        19,
+        "wr refunded customer sk"
+      ],
+      [
+        19,
+        "wr refunded cdemo sk"
+      ],
+      [
+        19,
+        "wr refunded hdemo sk"
+      ],
+      [
+        19,
+        "wr refunded addr sk"
+      ],
+      [
+        19,
+        "wr returning customer sk"
+      ],
+      [
+        19,
+        "wr returning cdemo sk"
+      ],
+      [
+        19,
+        "wr returning hdemo sk"
+      ],
+      [
+        19,
+        "wr returning addr sk"
+      ],
+      [
+        19,
+        "wr web page sk"
+      ],
+      [
+        19,
+        "wr reason sk"
+      ],
+      [
+        19,
+        "wr order number"
+      ],
+      [
+        19,
+        "wr return quantity"
+      ],
+      [
+        19,
+        "wr return amt"
+      ],
+      [
+        19,
+        "wr return tax"
+      ],
+      [
+        19,
+        "wr return amt inc tax"
+      ],
+      [
+        19,
+        "wr fee"
+      ],
+      [
+        19,
+        "wr return ship cost"
+      ],
+      [
+        19,
+        "wr refunded cash"
+      ],
+      [
+        19,
+        "wr reversed charge"
+      ],
+      [
+        19,
+        "wr account credit"
+      ],
+      [
+        19,
+        "wr net loss"
+      ],
+      [
+        20,
+        "imp sk"
+      ],
+      [
+        20,
+        "imp item sk"
+      ],
+      [
+        20,
+        "imp competitor"
+      ],
+      [
+        20,
+        "imp competitor price"
+      ],
+      [
+        20,
+        "imp start date"
+      ],
+      [
+        20,
+        "imp end date"
+      ],
+      [
+        21,
+        "wcs click sk"
+      ],
+      [
+        21,
+        "wcs click date sk"
+      ],
+      [
+        21,
+        "wcs click time sk"
+      ],
+      [
+        21,
+        "wcs sales sk"
+      ],
+      [
+        21,
+        "wcs item sk"
+      ],
+      [
+        21,
+        "wcs web page sk"
+      ],
+      [
+        21,
+        "wcs user sk"
+      ],
+      [
+        22,
+        "pr review sk"
+      ],
+      [
+        22,
+        "pr review date"
+      ],
+      [
+        22,
+        "pr review time"
+      ],
+      [
+        22,
+        "pr review rating"
+      ],
+      [
+        22,
+        "pr item sk"
+      ],
+      [
+        22,
+        "pr user sk"
+      ],
+      [
+        22,
+        "pr order sk"
+      ],
+      [
+        22,
+        "pr review content"
+      ]
+    ],
+    "column_names_original": [
+      [
+        -1,
+        "*"
+      ],
+      [
+        0,
+        "c_customer_sk"
+      ],
+      [
+        0,
+        "c_customer_id"
+      ],
+      [
+        0,
+        "c_current_cdemo_sk"
+      ],
+      [
+        0,
+        "c_current_hdemo_sk"
+      ],
+      [
+        0,
+        "c_current_addr_sk"
+      ],
+      [
+        0,
+        "c_first_shipto_date_sk"
+      ],
+      [
+        0,
+        "c_first_sales_date_sk"
+      ],
+      [
+        0,
+        "c_salutation"
+      ],
+      [
+        0,
+        "c_first_name"
+      ],
+      [
+        0,
+        "c_last_name"
+      ],
+      [
+        0,
+        "c_preferred_cust_flag"
+      ],
+      [
+        0,
+        "c_birth_day"
+      ],
+      [
+        0,
+        "c_birth_month"
+      ],
+      [
+        0,
+        "c_birth_year"
+      ],
+      [
+        0,
+        "c_birth_country"
+      ],
+      [
+        0,
+        "c_login"
+      ],
+      [
+        0,
+        "c_email_address"
+      ],
+      [
+        0,
+        "c_last_review_date"
+      ],
+      [
+        1,
+        "ca_address_sk"
+      ],
+      [
+        1,
+        "ca_address_id"
+      ],
+      [
+        1,
+        "ca_street_number"
+      ],
+      [
+        1,
+        "ca_street_name"
+      ],
+      [
+        1,
+        "ca_street_type"
+      ],
+      [
+        1,
+        "ca_suite_number"
+      ],
+      [
+        1,
+        "ca_city"
+      ],
+      [
+        1,
+        "ca_county"
+      ],
+      [
+        1,
+        "ca_state"
+      ],
+      [
+        1,
+        "ca_zip"
+      ],
+      [
+        1,
+        "ca_country"
+      ],
+      [
+        1,
+        "ca_gmt_offset"
+      ],
+      [
+        1,
+        "ca_location_type"
+      ],
+      [
+        2,
+        "cd_demo_sk"
+      ],
+      [
+        2,
+        "cd_gender"
+      ],
+      [
+        2,
+        "cd_marital_status"
+      ],
+      [
+        2,
+        "cd_education_status"
+      ],
+      [
+        2,
+        "cd_purchase_estimate"
+      ],
+      [
+        2,
+        "cd_credit_rating"
+      ],
+      [
+        2,
+        "cd_dep_count"
+      ],
+      [
+        2,
+        "cd_dep_employed_count"
+      ],
+      [
+        2,
+        "cd_dep_college_count"
+      ],
+      [
+        3,
+        "d_date_sk"
+      ],
+      [
+        3,
+        "d_date_id"
+      ],
+      [
+        3,
+        "d_date"
+      ],
+      [
+        3,
+        "d_month_seq"
+      ],
+      [
+        3,
+        "d_week_seq"
+      ],
+      [
+        3,
+        "d_quarter_seq"
+      ],
+      [
+        3,
+        "d_year"
+      ],
+      [
+        3,
+        "d_dow"
+      ],
+      [
+        3,
+        "d_moy"
+      ],
+      [
+        3,
+        "d_dom"
+      ],
+      [
+        3,
+        "d_qoy"
+      ],
+      [
+        3,
+        "d_fy_year"
+      ],
+      [
+        3,
+        "d_fy_quarter_seq"
+      ],
+      [
+        3,
+        "d_fy_week_seq"
+      ],
+      [
+        3,
+        "d_day_name"
+      ],
+      [
+        3,
+        "d_quarter_name"
+      ],
+      [
+        3,
+        "d_holiday"
+      ],
+      [
+        3,
+        "d_weekend"
+      ],
+      [
+        3,
+        "d_following_holiday"
+      ],
+      [
+        3,
+        "d_first_dom"
+      ],
+      [
+        3,
+        "d_last_dom"
+      ],
+      [
+        3,
+        "d_same_day_ly"
+      ],
+      [
+        3,
+        "d_same_day_lq"
+      ],
+      [
+        3,
+        "d_current_day"
+      ],
+      [
+        3,
+        "d_current_week"
+      ],
+      [
+        3,
+        "d_current_month"
+      ],
+      [
+        3,
+        "d_current_quarter"
+      ],
+      [
+        3,
+        "d_current_year"
+      ],
+      [
+        4,
+        "hd_demo_sk"
+      ],
+      [
+        4,
+        "hd_income_band_sk"
+      ],
+      [
+        4,
+        "hd_buy_potential"
+      ],
+      [
+        4,
+        "hd_dep_count"
+      ],
+      [
+        4,
+        "hd_vehicle_count"
+      ],
+      [
+        5,
+        "ib_income_band_sk"
+      ],
+      [
+        5,
+        "ib_lower_bound"
+      ],
+      [
+        5,
+        "ib_upper_bound"
+      ],
+      [
+        6,
+        "i_item_sk"
+      ],
+      [
+        6,
+        "i_item_id"
+      ],
+      [
+        6,
+        "i_rec_start_date"
+      ],
+      [
+        6,
+        "i_rec_end_date"
+      ],
+      [
+        6,
+        "i_item_desc"
+      ],
+      [
+        6,
+        "i_current_price"
+      ],
+      [
+        6,
+        "i_wholesale_cost"
+      ],
+      [
+        6,
+        "i_brand_id"
+      ],
+      [
+        6,
+        "i_brand"
+      ],
+      [
+        6,
+        "i_class_id"
+      ],
+      [
+        6,
+        "i_class"
+      ],
+      [
+        6,
+        "i_category_id"
+      ],
+      [
+        6,
+        "i_category"
+      ],
+      [
+        6,
+        "i_manufact_id"
+      ],
+      [
+        6,
+        "i_manufact"
+      ],
+      [
+        6,
+        "i_size"
+      ],
+      [
+        6,
+        "i_formulation"
+      ],
+      [
+        6,
+        "i_color"
+      ],
+      [
+        6,
+        "i_units"
+      ],
+      [
+        6,
+        "i_container"
+      ],
+      [
+        6,
+        "i_manager_id"
+      ],
+      [
+        6,
+        "i_product_name"
+      ],
+      [
+        7,
+        "p_promo_sk"
+      ],
+      [
+        7,
+        "p_promo_id"
+      ],
+      [
+        7,
+        "p_start_date_sk"
+      ],
+      [
+        7,
+        "p_end_date_sk"
+      ],
+      [
+        7,
+        "p_item_sk"
+      ],
+      [
+        7,
+        "p_cost"
+      ],
+      [
+        7,
+        "p_response_target"
+      ],
+      [
+        7,
+        "p_promo_name"
+      ],
+      [
+        7,
+        "p_channel_dmail"
+      ],
+      [
+        7,
+        "p_channel_email"
+      ],
+      [
+        7,
+        "p_channel_catalog"
+      ],
+      [
+        7,
+        "p_channel_tv"
+      ],
+      [
+        7,
+        "p_channel_radio"
+      ],
+      [
+        7,
+        "p_channel_press"
+      ],
+      [
+        7,
+        "p_channel_event"
+      ],
+      [
+        7,
+        "p_channel_demo"
+      ],
+      [
+        7,
+        "p_channel_details"
+      ],
+      [
+        7,
+        "p_purpose"
+      ],
+      [
+        7,
+        "p_discount_active"
+      ],
+      [
+        8,
+        "r_reason_sk"
+      ],
+      [
+        8,
+        "r_reason_id"
+      ],
+      [
+        8,
+        "r_reason_desc"
+      ],
+      [
+        9,
+        "sm_ship_mode_sk"
+      ],
+      [
+        9,
+        "sm_ship_mode_id"
+      ],
+      [
+        9,
+        "sm_type"
+      ],
+      [
+        9,
+        "sm_code"
+      ],
+      [
+        9,
+        "sm_carrier"
+      ],
+      [
+        9,
+        "sm_contract"
+      ],
+      [
+        10,
+        "s_store_sk"
+      ],
+      [
+        10,
+        "s_store_id"
+      ],
+      [
+        10,
+        "s_rec_start_date"
+      ],
+      [
+        10,
+        "s_rec_end_date"
+      ],
+      [
+        10,
+        "s_closed_date_sk"
+      ],
+      [
+        10,
+        "s_store_name"
+      ],
+      [
+        10,
+        "s_number_employees"
+      ],
+      [
+        10,
+        "s_floor_space"
+      ],
+      [
+        10,
+        "s_hours"
+      ],
+      [
+        10,
+        "s_manager"
+      ],
+      [
+        10,
+        "s_market_id"
+      ],
+      [
+        10,
+        "s_geography_class"
+      ],
+      [
+        10,
+        "s_market_desc"
+      ],
+      [
+        10,
+        "s_market_manager"
+      ],
+      [
+        10,
+        "s_division_id"
+      ],
+      [
+        10,
+        "s_division_name"
+      ],
+      [
+        10,
+        "s_company_id"
+      ],
+      [
+        10,
+        "s_company_name"
+      ],
+      [
+        10,
+        "s_street_number"
+      ],
+      [
+        10,
+        "s_street_name"
+      ],
+      [
+        10,
+        "s_street_type"
+      ],
+      [
+        10,
+        "s_suite_number"
+      ],
+      [
+        10,
+        "s_city"
+      ],
+      [
+        10,
+        "s_county"
+      ],
+      [
+        10,
+        "s_state"
+      ],
+      [
+        10,
+        "s_zip"
+      ],
+      [
+        10,
+        "s_country"
+      ],
+      [
+        10,
+        "s_gmt_offset"
+      ],
+      [
+        10,
+        "s_tax_precentage"
+      ],
+      [
+        11,
+        "t_time_sk"
+      ],
+      [
+        11,
+        "t_time_id"
+      ],
+      [
+        11,
+        "t_time"
+      ],
+      [
+        11,
+        "t_hour"
+      ],
+      [
+        11,
+        "t_minute"
+      ],
+      [
+        11,
+        "t_second"
+      ],
+      [
+        11,
+        "t_am_pm"
+      ],
+      [
+        11,
+        "t_shift"
+      ],
+      [
+        11,
+        "t_sub_shift"
+      ],
+      [
+        11,
+        "t_meal_time"
+      ],
+      [
+        12,
+        "w_warehouse_sk"
+      ],
+      [
+        12,
+        "w_warehouse_id"
+      ],
+      [
+        12,
+        "w_warehouse_name"
+      ],
+      [
+        12,
+        "w_warehouse_sq_ft"
+      ],
+      [
+        12,
+        "w_street_number"
+      ],
+      [
+        12,
+        "w_street_name"
+      ],
+      [
+        12,
+        "w_street_type"
+      ],
+      [
+        12,
+        "w_suite_number"
+      ],
+      [
+        12,
+        "w_city"
+      ],
+      [
+        12,
+        "w_county"
+      ],
+      [
+        12,
+        "w_state"
+      ],
+      [
+        12,
+        "w_zip"
+      ],
+      [
+        12,
+        "w_country"
+      ],
+      [
+        12,
+        "w_gmt_offset"
+      ],
+      [
+        13,
+        "web_site_sk"
+      ],
+      [
+        13,
+        "web_site_id"
+      ],
+      [
+        13,
+        "web_rec_start_date"
+      ],
+      [
+        13,
+        "web_rec_end_date"
+      ],
+      [
+        13,
+        "web_name"
+      ],
+      [
+        13,
+        "web_open_date_sk"
+      ],
+      [
+        13,
+        "web_close_date_sk"
+      ],
+      [
+        13,
+        "web_class"
+      ],
+      [
+        13,
+        "web_manager"
+      ],
+      [
+        13,
+        "web_mkt_id"
+      ],
+      [
+        13,
+        "web_mkt_class"
+      ],
+      [
+        13,
+        "web_mkt_desc"
+      ],
+      [
+        13,
+        "web_market_manager"
+      ],
+      [
+        13,
+        "web_company_id"
+      ],
+      [
+        13,
+        "web_company_name"
+      ],
+      [
+        13,
+        "web_street_number"
+      ],
+      [
+        13,
+        "web_street_name"
+      ],
+      [
+        13,
+        "web_street_type"
+      ],
+      [
+        13,
+        "web_suite_number"
+      ],
+      [
+        13,
+        "web_city"
+      ],
+      [
+        13,
+        "web_county"
+      ],
+      [
+        13,
+        "web_state"
+      ],
+      [
+        13,
+        "web_zip"
+      ],
+      [
+        13,
+        "web_country"
+      ],
+      [
+        13,
+        "web_gmt_offset"
+      ],
+      [
+        13,
+        "web_tax_percentage"
+      ],
+      [
+        14,
+        "wp_web_page_sk"
+      ],
+      [
+        14,
+        "wp_web_page_id"
+      ],
+      [
+        14,
+        "wp_rec_start_date"
+      ],
+      [
+        14,
+        "wp_rec_end_date"
+      ],
+      [
+        14,
+        "wp_creation_date_sk"
+      ],
+      [
+        14,
+        "wp_access_date_sk"
+      ],
+      [
+        14,
+        "wp_autogen_flag"
+      ],
+      [
+        14,
+        "wp_customer_sk"
+      ],
+      [
+        14,
+        "wp_url"
+      ],
+      [
+        14,
+        "wp_type"
+      ],
+      [
+        14,
+        "wp_char_count"
+      ],
+      [
+        14,
+        "wp_link_count"
+      ],
+      [
+        14,
+        "wp_image_count"
+      ],
+      [
+        14,
+        "wp_max_ad_count"
+      ],
+      [
+        15,
+        "inv_date_sk"
+      ],
+      [
+        15,
+        "inv_item_sk"
+      ],
+      [
+        15,
+        "inv_warehouse_sk"
+      ],
+      [
+        15,
+        "inv_quantity_on_hand"
+      ],
+      [
+        16,
+        "ss_sold_date_sk"
+      ],
+      [
+        16,
+        "ss_sold_time_sk"
+      ],
+      [
+        16,
+        "ss_item_sk"
+      ],
+      [
+        16,
+        "ss_customer_sk"
+      ],
+      [
+        16,
+        "ss_cdemo_sk"
+      ],
+      [
+        16,
+        "ss_hdemo_sk"
+      ],
+      [
+        16,
+        "ss_addr_sk"
+      ],
+      [
+        16,
+        "ss_store_sk"
+      ],
+      [
+        16,
+        "ss_promo_sk"
+      ],
+      [
+        16,
+        "ss_ticket_number"
+      ],
+      [
+        16,
+        "ss_quantity"
+      ],
+      [
+        16,
+        "ss_wholesale_cost"
+      ],
+      [
+        16,
+        "ss_list_price"
+      ],
+      [
+        16,
+        "ss_sales_price"
+      ],
+      [
+        16,
+        "ss_ext_discount_amt"
+      ],
+      [
+        16,
+        "ss_ext_sales_price"
+      ],
+      [
+        16,
+        "ss_ext_wholesale_cost"
+      ],
+      [
+        16,
+        "ss_ext_list_price"
+      ],
+      [
+        16,
+        "ss_ext_tax"
+      ],
+      [
+        16,
+        "ss_coupon_amt"
+      ],
+      [
+        16,
+        "ss_net_paid"
+      ],
+      [
+        16,
+        "ss_net_paid_inc_tax"
+      ],
+      [
+        16,
+        "ss_net_profit"
+      ],
+      [
+        17,
+        "sr_returned_date_sk"
+      ],
+      [
+        17,
+        "sr_return_time_sk"
+      ],
+      [
+        17,
+        "sr_item_sk"
+      ],
+      [
+        17,
+        "sr_customer_sk"
+      ],
+      [
+        17,
+        "sr_cdemo_sk"
+      ],
+      [
+        17,
+        "sr_hdemo_sk"
+      ],
+      [
+        17,
+        "sr_addr_sk"
+      ],
+      [
+        17,
+        "sr_store_sk"
+      ],
+      [
+        17,
+        "sr_reason_sk"
+      ],
+      [
+        17,
+        "sr_ticket_number"
+      ],
+      [
+        17,
+        "sr_return_quantity"
+      ],
+      [
+        17,
+        "sr_return_amt"
+      ],
+      [
+        17,
+        "sr_return_tax"
+      ],
+      [
+        17,
+        "sr_return_amt_inc_tax"
+      ],
+      [
+        17,
+        "sr_fee"
+      ],
+      [
+        17,
+        "sr_return_ship_cost"
+      ],
+      [
+        17,
+        "sr_refunded_cash"
+      ],
+      [
+        17,
+        "sr_reversed_charge"
+      ],
+      [
+        17,
+        "sr_store_credit"
+      ],
+      [
+        17,
+        "sr_net_loss"
+      ],
+      [
+        18,
+        "ws_sold_date_sk"
+      ],
+      [
+        18,
+        "ws_sold_time_sk"
+      ],
+      [
+        18,
+        "ws_ship_date_sk"
+      ],
+      [
+        18,
+        "ws_item_sk"
+      ],
+      [
+        18,
+        "ws_bill_customer_sk"
+      ],
+      [
+        18,
+        "ws_bill_cdemo_sk"
+      ],
+      [
+        18,
+        "ws_bill_hdemo_sk"
+      ],
+      [
+        18,
+        "ws_bill_addr_sk"
+      ],
+      [
+        18,
+        "ws_ship_customer_sk"
+      ],
+      [
+        18,
+        "ws_ship_cdemo_sk"
+      ],
+      [
+        18,
+        "ws_ship_hdemo_sk"
+      ],
+      [
+        18,
+        "ws_ship_addr_sk"
+      ],
+      [
+        18,
+        "ws_web_page_sk"
+      ],
+      [
+        18,
+        "ws_web_site_sk"
+      ],
+      [
+        18,
+        "ws_ship_mode_sk"
+      ],
+      [
+        18,
+        "ws_warehouse_sk"
+      ],
+      [
+        18,
+        "ws_promo_sk"
+      ],
+      [
+        18,
+        "ws_order_number"
+      ],
+      [
+        18,
+        "ws_quantity"
+      ],
+      [
+        18,
+        "ws_wholesale_cost"
+      ],
+      [
+        18,
+        "ws_list_price"
+      ],
+      [
+        18,
+        "ws_sales_price"
+      ],
+      [
+        18,
+        "ws_ext_discount_amt"
+      ],
+      [
+        18,
+        "ws_ext_sales_price"
+      ],
+      [
+        18,
+        "ws_ext_wholesale_cost"
+      ],
+      [
+        18,
+        "ws_ext_list_price"
+      ],
+      [
+        18,
+        "ws_ext_tax"
+      ],
+      [
+        18,
+        "ws_coupon_amt"
+      ],
+      [
+        18,
+        "ws_ext_ship_cost"
+      ],
+      [
+        18,
+        "ws_net_paid"
+      ],
+      [
+        18,
+        "ws_net_paid_inc_tax"
+      ],
+      [
+        18,
+        "ws_net_paid_inc_ship"
+      ],
+      [
+        18,
+        "ws_net_paid_inc_ship_tax"
+      ],
+      [
+        18,
+        "ws_net_profit"
+      ],
+      [
+        19,
+        "wr_returned_date_sk"
+      ],
+      [
+        19,
+        "wr_returned_time_sk"
+      ],
+      [
+        19,
+        "wr_item_sk"
+      ],
+      [
+        19,
+        "wr_refunded_customer_sk"
+      ],
+      [
+        19,
+        "wr_refunded_cdemo_sk"
+      ],
+      [
+        19,
+        "wr_refunded_hdemo_sk"
+      ],
+      [
+        19,
+        "wr_refunded_addr_sk"
+      ],
+      [
+        19,
+        "wr_returning_customer_sk"
+      ],
+      [
+        19,
+        "wr_returning_cdemo_sk"
+      ],
+      [
+        19,
+        "wr_returning_hdemo_sk"
+      ],
+      [
+        19,
+        "wr_returning_addr_sk"
+      ],
+      [
+        19,
+        "wr_web_page_sk"
+      ],
+      [
+        19,
+        "wr_reason_sk"
+      ],
+      [
+        19,
+        "wr_order_number"
+      ],
+      [
+        19,
+        "wr_return_quantity"
+      ],
+      [
+        19,
+        "wr_return_amt"
+      ],
+      [
+        19,
+        "wr_return_tax"
+      ],
+      [
+        19,
+        "wr_return_amt_inc_tax"
+      ],
+      [
+        19,
+        "wr_fee"
+      ],
+      [
+        19,
+        "wr_return_ship_cost"
+      ],
+      [
+        19,
+        "wr_refunded_cash"
+      ],
+      [
+        19,
+        "wr_reversed_charge"
+      ],
+      [
+        19,
+        "wr_account_credit"
+      ],
+      [
+        19,
+        "wr_net_loss"
+      ],
+      [
+        20,
+        "imp_sk"
+      ],
+      [
+        20,
+        "imp_item_sk"
+      ],
+      [
+        20,
+        "imp_competitor"
+      ],
+      [
+        20,
+        "imp_competitor_price"
+      ],
+      [
+        20,
+        "imp_start_date"
+      ],
+      [
+        20,
+        "imp_end_date"
+      ],
+      [
+        21,
+        "wcs_click_sk"
+      ],
+      [
+        21,
+        "wcs_click_date_sk"
+      ],
+      [
+        21,
+        "wcs_click_time_sk"
+      ],
+      [
+        21,
+        "wcs_sales_sk"
+      ],
+      [
+        21,
+        "wcs_item_sk"
+      ],
+      [
+        21,
+        "wcs_web_page_sk"
+      ],
+      [
+        21,
+        "wcs_user_sk"
+      ],
+      [
+        22,
+        "pr_review_sk"
+      ],
+      [
+        22,
+        "pr_review_date"
+      ],
+      [
+        22,
+        "pr_review_time"
+      ],
+      [
+        22,
+        "pr_review_rating"
+      ],
+      [
+        22,
+        "pr_item_sk"
+      ],
+      [
+        22,
+        "pr_user_sk"
+      ],
+      [
+        22,
+        "pr_order_sk"
+      ],
+      [
+        22,
+        "pr_review_content"
+      ]
+    ],
+    "column_types": [
+      "text",
+      "number",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "text",
+      "others",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "time",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "others",
+      "others",
+      "others",
+      "number",
+      "number",
+      "number",
+      "number",
+      "others",
+      "others",
+      "others",
+      "others",
+      "others",
+      "number",
+      "number",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "time",
+      "time",
+      "text",
+      "number",
+      "number",
+      "number",
+      "text",
+      "number",
+      "text",
+      "number",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "number",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "others",
+      "others",
+      "others",
+      "others",
+      "others",
+      "others",
+      "others",
+      "others",
+      "text",
+      "text",
+      "others",
+      "number",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "time",
+      "time",
+      "number",
+      "text",
+      "number",
+      "number",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "text",
+      "time",
+      "time",
+      "text",
+      "number",
+      "number",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "text",
+      "time",
+      "time",
+      "number",
+      "number",
+      "others",
+      "number",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "time",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text"
+    ],
+    "db_id": "tpcxbb",
+    "foreign_keys": [
+      [
+        7,
+        41
+      ],
+      [
+        6,
+        41
+      ],
+      [
+        5,
+        19
+      ],
+      [
+        4,
+        69
+      ],
+      [
+        3,
+        32
+      ],
+      [
+        70,
+        74
+      ],
+      [
+        103,
+        77
+      ],
+      [
+        102,
+        41
+      ],
+      [
+        101,
+        41
+      ],
+      [
+        131,
+        41
+      ],
+      [
+        186,
+        41
+      ],
+      [
+        185,
+        41
+      ],
+      [
+        213,
+        1
+      ],
+      [
+        211,
+        41
+      ],
+      [
+        210,
+        41
+      ],
+      [
+        222,
+        166
+      ],
+      [
+        221,
+        77
+      ],
+      [
+        220,
+        41
+      ],
+      [
+        232,
+        99
+      ],
+      [
+        231,
+        127
+      ],
+      [
+        227,
+        1
+      ],
+      [
+        228,
+        3
+      ],
+      [
+        229,
+        4
+      ],
+      [
+        230,
+        5
+      ],
+      [
+        226,
+        77
+      ],
+      [
+        225,
+        156
+      ],
+      [
+        224,
+        41
+      ],
+      [
+        256,
+        233
+      ],
+      [
+        249,
+        226
+      ],
+      [
+        254,
+        231
+      ],
+      [
+        250,
+        227
+      ],
+      [
+        255,
+        118
+      ],
+      [
+        250,
+        1
+      ],
+      [
+        251,
+        3
+      ],
+      [
+        252,
+        4
+      ],
+      [
+        253,
+        5
+      ],
+      [
+        248,
+        156
+      ],
+      [
+        247,
+        41
+      ],
+      [
+        273,
+        69
+      ],
+      [
+        277,
+        69
+      ],
+      [
+        283,
+        99
+      ],
+      [
+        282,
+        166
+      ],
+      [
+        281,
+        121
+      ],
+      [
+        280,
+        180
+      ],
+      [
+        279,
+        206
+      ],
+      [
+        275,
+        1
+      ],
+      [
+        276,
+        3
+      ],
+      [
+        277,
+        4
+      ],
+      [
+        278,
+        5
+      ],
+      [
+        271,
+        1
+      ],
+      [
+        272,
+        3
+      ],
+      [
+        273,
+        4
+      ],
+      [
+        274,
+        5
+      ],
+      [
+        270,
+        77
+      ],
+      [
+        269,
+        41
+      ],
+      [
+        268,
+        156
+      ],
+      [
+        267,
+        41
+      ],
+      [
+        313,
+        118
+      ],
+      [
+        314,
+        284
+      ],
+      [
+        303,
+        270
+      ],
+      [
+        312,
+        279
+      ],
+      [
+        304,
+        271
+      ],
+      [
+        304,
+        1
+      ],
+      [
+        305,
+        3
+      ],
+      [
+        306,
+        4
+      ],
+      [
+        307,
+        5
+      ],
+      [
+        302,
+        156
+      ],
+      [
+        301,
+        41
+      ],
+      [
+        330,
+        41
+      ],
+      [
+        329,
+        41
+      ],
+      [
+        326,
+        77
+      ],
+      [
+        337,
+        1
+      ],
+      [
+        336,
+        206
+      ],
+      [
+        335,
+        77
+      ],
+      [
+        333,
+        156
+      ],
+      [
+        332,
+        41
+      ],
+      [
+        342,
+        270
+      ],
+      [
+        343,
+        271
+      ],
+      [
+        344,
+        284
+      ],
+      [
+        340,
+        156
+      ]
+    ],
+    "primary_keys": [
+      1,
+      19,
+      32,
+      41,
+      69,
+      74,
+      77,
+      99,
+      118,
+      121,
+      127,
+      156,
+      166,
+      180,
+      206,
+      220,
+      233,
+      256,
+      284,
+      314,
+      325,
+      331,
+      338
+    ],
+    "table_names": [
+      "customer",
+      "customer address",
+      "customer demographics",
+      "date dim",
+      "household demographics",
+      "income band",
+      "item",
+      "promotion",
+      "reason",
+      "ship mode",
+      "store",
+      "time dim",
+      "warehouse",
+      "web site",
+      "web page",
+      "inventory",
+      "store sales",
+      "store returns",
+      "web sales",
+      "web returns",
+      "item marketprices",
+      "web clickstreams",
+      "product reviews"
+    ],
+    "table_names_original": [
+      "customer",
+      "customer_address",
+      "customer_demographics",
+      "date_dim",
+      "household_demographics",
+      "income_band",
+      "item",
+      "promotion",
+      "reason",
+      "ship_mode",
+      "store",
+      "time_dim",
+      "warehouse",
+      "web_site",
+      "web_page",
+      "inventory",
+      "store_sales",
+      "store_returns",
+      "web_sales",
+      "web_returns",
+      "item_marketprices",
+      "web_clickstreams",
+      "product_reviews"
+    ]
+  }
+]
