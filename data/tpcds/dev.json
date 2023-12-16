@@ -49,7 +49,7 @@
   },
   {
     "db_id": "tpcds",
-    "question": "For all items whose price was changed on 2000-03-11, compute the percentage change in inventory between the 30-day period BEFORE the price change and the 30-day period AFTER the change. List the warehouse name and item id in ascending order by warehouse name and item id."
+    "question": "For all items whose price was changed on 2000-03-11, compute the percentage rate in inventory between the 30-day period BEFORE the price change and the 30-day period AFTER the change. List the warehouse name, item ID and the percentage rate in inventory ascending order by warehouse name and item id."
   },
   {
     "db_id": "tpcds",
