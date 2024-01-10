@@ -628,7 +628,7 @@ def GPT4_debug(prompt):
 sql_pattern = re.compile(r'(?:SQL \d+:)(.*)')
 
 
-def generate_one_gpt_sql_answer(schema: str, item: dict, count: int) -> list:
+def generate_gpt_sql_answers(schema: str, item: dict, count: int) -> list:
     global spider_schema, spider_primary, spider_foreign
     spider_schema, spider_primary, spider_foreign = creating_schema(schema)
 
