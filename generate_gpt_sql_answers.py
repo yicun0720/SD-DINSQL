@@ -456,8 +456,9 @@ def hard_prompt_maker(test_sample_text, database, schema_links, sub_questions, c
     fields += "Foreign_keys = " + find_foreign_keys_MYSQL_like(database) + '\n'
     stepping = f'''\nA: Let's think step by step. "{test_sample_text}" can be solved by knowing the answer to the following sub-question "{sub_questions}".'''
     fields += "\n"
-    prompt = instruction + fields + hard_prompt + (
-        num_prompt if count > 1 else '') + 'Q: "' + test_sample_text + '"' + '\nschema_links: ' + schema_links + stepping + '\nThe SQL query for the sub-question"'
+    prompt = (instruction + fields + hard_prompt +
+              ((num_prompt % (count, count, count)) if count > 1 else '') +
+              'Q: "' + test_sample_text + '"' + '\nschema_links: ' + schema_links + stepping + '\nThe SQL query for the sub-question"')
     return prompt
 
 
@@ -468,8 +469,9 @@ def medium_prompt_maker(test_sample_text, database, schema_links, count):
     fields += find_fields_MYSQL_like(database)
     fields += "Foreign_keys = " + find_foreign_keys_MYSQL_like(database) + '\n'
     fields += "\n"
-    prompt = instruction + fields + medium_prompt + (
-        num_prompt if count > 1 else '') + 'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nA: Let’s think step by step.'
+    prompt = (instruction + fields + medium_prompt +
+              ((num_prompt % (count, count, count)) if count > 1 else '') +
+              'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nA: Let’s think step by step.')
     return prompt
 
 
@@ -478,8 +480,9 @@ def easy_prompt_maker(test_sample_text, database, schema_links, count):
     fields = find_fields_MYSQL_like("college_2")
     fields += find_fields_MYSQL_like(database)
     fields += "\n"
-    prompt = instruction + fields + easy_prompt + (
-        num_prompt if count > 1 else '') + 'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nSQL:'
+    prompt = (instruction + fields + easy_prompt +
+              ((num_prompt % (count, count, count)) if count > 1 else '')
+              + 'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nSQL:')
     return prompt
 
 
@@ -628,7 +631,7 @@ def GPT4_debug(prompt):
 sql_pattern = re.compile(r'(?:SQL \d+:)(.*)')
 
 
-def generate_gpt_sql_answers(schema: str, item: dict, count: int) -> list:
+def generate_gpt_sql_answers(item: dict, count: int, schema='data/spider/tables.json') -> list:
     global spider_schema, spider_primary, spider_foreign
     spider_schema, spider_primary, spider_foreign = creating_schema(schema)
 
