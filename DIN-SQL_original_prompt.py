@@ -5,6 +5,7 @@ import time
 import openai
 import os
 import regex as re
+from tqdm import tqdm
 
 # ----------------------------------------------------prompts-----------------------------------------------
 schema_linking_prompt = '''Table advisor, columns = [*,s_ID,i_ID]
@@ -433,26 +434,12 @@ Intermediate_representation: select course.title , course.credits from classroom
 SQL: SELECT T3.title ,  T3.credits FROM classroom AS T1 JOIN SECTION AS T2 ON T1.building  =  T2.building AND T1.room_number  =  T2.room_number JOIN course AS T3 ON T2.course_id  =  T3.course_id WHERE T1.capacity  =  (SELECT max(capacity) FROM classroom)
 
 '''
-
-num_prompt = '# Please output ten candidate SQL queries for the next question that you think are the correct answers. These ten candidate SQL queries are allowed to vary a lot with each other in their syntax. List the ten queries one by one with each following the \'SQL $index:\' tag.\n'
-
 # ----------------------------------------------------------------------------------------------------------
-# API_KEY = "sb-fd357ca7cadfff86ad3840bfd045996b72a1c75449713c33"
-# openai.api_base = "https://api.openai-sb.com/v1"
 
-API_KEY = "sk-A6JOsEX1MlvA3HlQ249b60400e7a441c8492Aa53E97a776a"
-openai.api_base = "http://ipads.chat.gpt:3006/v1"
+API_KEY = "sk-ayikqTDzWqhUEqYE6537B749B80c483a9950604d6402A562"
+openai.api_base = "http://10.0.0.103:3006/v1"
 os.environ["OPENAI_API_KEY"] = API_KEY
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
-DATA = 'spider'
-DATASET_SCHEMA = 'data/%s/tables.json' % DATA
-DATASET = 'data/%s/wrong.json' % DATA
-OUTPUT_SCHEMA_LINKS_FILE = 'result/%s/schema_links.txt' % DATA
-OUTPUT_CLASSIFICATION_FILE = 'result/%s/classification.txt' % DATA
-OUTPUT_SQLS_FILE = 'result/%s/sqls1.json' % DATA
-OUTPUT_DEBUG_SQLS_FILE = 'result/%s/debug_sqls1.json' % DATA
-
 
 
 def load_data(DATASET):
@@ -460,34 +447,34 @@ def load_data(DATASET):
 
 
 def hard_prompt_maker(test_sample_text, database, schema_links, sub_questions):
-    instruction = "# Use the intermediate representation and the schema links to generate the SQL queries for each of the questions.\n"
+    instruction = "# Use the intermediate representation and the schema links to generate the SQL queries for each of the questions.\n# List the answer without any explanation in one line in plain text form starting with \"SQL: \"\n"
     fields = find_fields_MYSQL_like("college_2")
     fields += "Foreign_keys = " + find_foreign_keys_MYSQL_like("college_2") + '\n'
     fields += find_fields_MYSQL_like(database)
     fields += "Foreign_keys = " + find_foreign_keys_MYSQL_like(database) + '\n'
     stepping = f'''\nA: Let's think step by step. "{test_sample_text}" can be solved by knowing the answer to the following sub-question "{sub_questions}".'''
     fields += "\n"
-    prompt = instruction + fields + hard_prompt + num_prompt + 'Q: "' + test_sample_text + '"' + '\nschema_links: ' + schema_links + stepping + '\nThe SQL query for the sub-question"'
+    prompt = instruction + fields + hard_prompt + 'Q: "' + test_sample_text + '"' + '\nschema_links: ' + schema_links + stepping + '\nThe SQL query for the sub-question"'
     return prompt
 
 
 def medium_prompt_maker(test_sample_text, database, schema_links):
-    instruction = "# Use the the schema links and Intermediate_representation to generate the SQL queries for each of the questions.\n"
+    instruction = "# Use the the schema links and Intermediate_representation to generate the SQL queries for each of the questions.\n# List the answer without any explanation in one line in plain text form starting with \"SQL: \".\n"
     fields = find_fields_MYSQL_like("college_2")
     fields += "Foreign_keys = " + find_foreign_keys_MYSQL_like("college_2") + '\n'
     fields += find_fields_MYSQL_like(database)
     fields += "Foreign_keys = " + find_foreign_keys_MYSQL_like(database) + '\n'
     fields += "\n"
-    prompt = instruction + fields + medium_prompt + num_prompt + 'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nA: Let’s think step by step.'
+    prompt = instruction + fields + medium_prompt + 'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nA: Let’s think step by step.'
     return prompt
 
 
 def easy_prompt_maker(test_sample_text, database, schema_links):
-    instruction = "# Use the the schema links to generate the SQL queries for each of the questions.\n"
+    instruction = "# Use the the schema links to generate the SQL queries for each of the questions.\n# List the answer without any explanation in one line in plain text form starting with \"SQL: \".\n"
     fields = find_fields_MYSQL_like("college_2")
     fields += find_fields_MYSQL_like(database)
     fields += "\n"
-    prompt = instruction + fields + easy_prompt + num_prompt + 'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nSQL:'
+    prompt = instruction + fields + easy_prompt + 'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nSQL:'
     return prompt
 
 
@@ -601,9 +588,9 @@ def debuger(test_sample_text, database, sql):
     return prompt
 
 
-def GPT_generation(prompt):
+def GPT4_generation(prompt):
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
+        model="gpt-4-turbo",
         messages=[{"role": "user", "content": prompt}],
         n=1,
         stream=False,
@@ -617,213 +604,105 @@ def GPT_generation(prompt):
     return response['choices'][0]['message']['content']
 
 
-def GPT_debug(prompt):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
-        messages=[{"role": "user", "content": prompt}],
-        n=1,
-        stream=False,
-        temperature=0.0,
-        max_tokens=1500,
-        top_p=1.0,
-        frequency_penalty=0.0,
-        presence_penalty=0.0,
-        stop=[";", "\n\n"]
-    )
-    return response['choices'][0]['message']['content']
-
-
-def get_schema_links(start, end):
-    val_df = load_data(DATASET)
-    print(f"Number of data samples {val_df.shape[0]}")
-    CODEX = []
-    for index, row in val_df.iterrows():
-        if index < start or index > end:
-            continue
-
-        print(f"index is {index}")
-        # print(row['query'])
-        print(row['question'])
-        schema_links = None
-        while schema_links is None:
-            try:
-                schema_links = GPT_generation(
-                    schema_linking_prompt_maker(row['question'], row['db_id']))
-            except Exception as e:
-                print('retry')
-                time.sleep(0.5)
-                pass
+def generate_gpt_sql_answers(item: dict) -> list:
+    print(item['question'])
+    schema_links = None
+    while schema_links is None:
         try:
-            schema_links = schema_links.split("Schema_links: ")[1]
+            schema_links = GPT4_generation(
+                schema_linking_prompt_maker(item['question'], item['db_id']))
         except:
-            print("Slicing error for the schema_linking module")
-            schema_links = "[]"
-        print(schema_links)
-        CODEX.append(schema_links)
+            print('retry')
+            time.sleep(0.5)
+            pass
+    try:
+        schema_links = schema_links.split("Schema_links: ")[1]
+    except:
+        print("Slicing error for the schema_linking module")
+        schema_links = "[]"
+    # print(schema_links)
+    classification = None
+    while classification is None:
+        try:
+            classification = GPT4_generation(
+                classification_prompt_maker(item['question'], item['db_id'], schema_links[1:]))
+        except:
+            print('retry')
+            time.sleep(0.5)
+            pass
+    try:
+        predicted_class = classification.split("Label: ")[1]
+    except:
+        print("Slicing error for the classification module")
+        predicted_class = '"NESTED"'
 
-    with open(OUTPUT_SCHEMA_LINKS_FILE, 'w') as f:
-        for line in CODEX:
-            f.write(f"{line}\n")
-
-
-def get_classification(start, end):
-    val_df = load_data(DATASET)
-    print(f"Number of data samples {val_df.shape[0]}")
-    schema_links_all = []
-    with open(OUTPUT_SCHEMA_LINKS_FILE, 'r') as f:
-        for line in f:
-            schema_links_all.append(line[:-1])
-
-    CODEX = []
-    for index, row in val_df.iterrows():
-        if index < start or index > end:
-            continue
-
-        print(f"index is {index}")
-        # print(row['query'])
-        print(row['question'])
-        classification = None
-        while classification is None:
+    # print(classification)
+    if '"EASY"' in predicted_class:
+        print("EASY")
+        SQL = None
+        while SQL is None:
             try:
-                classification = GPT_generation(
-                    classification_prompt_maker(row['question'], row['db_id'], schema_links_all[index][1:]))
+                SQL = GPT4_generation(easy_prompt_maker(item['question'], item['db_id'], schema_links))
             except:
                 print('retry')
                 time.sleep(0.5)
                 pass
-        print(classification)
-        CODEX.append(classification)
-
-    with open(OUTPUT_CLASSIFICATION_FILE, 'w') as f:
-        for line in CODEX:
-            f.write(f"{line}\n")
-
-
-sql_pattern = re.compile(r'(?:SQL \d+:)(.*)')
-
-
-def get_sqls(start, end):
-    val_df = load_data(DATASET)
-    print(f"Number of data samples {val_df.shape[0]}")
-
-    schema_links_all = []
-    with open(OUTPUT_SCHEMA_LINKS_FILE, 'r') as f:
-        for line in f:
-            schema_links_all.append(line[:-1])
-
-    classifications_all = []
-    with open(OUTPUT_CLASSIFICATION_FILE, 'r') as f:
-        for line in f:
-            classifications_all.append(line[:-1])
-
-    CODEX = []
-    for index, row in val_df.iterrows():
-        if index < start or index > end:
-            continue
-
-        schema_links = schema_links_all[index]
-        start_index = index * 4
-        classification = (classifications_all[start_index] + '\n' +
-                          classifications_all[start_index + 1] + '\n' +
-                          classifications_all[start_index + 2] + '\n' +
-                          classifications_all[start_index + 3])
-
+            try:
+                SQL = SQL.split("SQL: ")[1]
+            except:
+                print("SQL slicing error")
+    elif '"NON-NESTED"' in predicted_class:
+        print("NON-NESTED")
+        SQL = None
+        while SQL is None:
+            try:
+                SQL = GPT4_generation(medium_prompt_maker(item['question'], item['db_id'], schema_links))
+            except:
+                print('retry')
+                time.sleep(0.5)
+                pass
         try:
-            predicted_class = classification.split("Label: ")[1]
+            SQL = SQL.split("SQL: ")[1]
         except:
-            # print("Slicing error for the classification module")
-            predicted_class = '"NESTED"'
-
-        if '"EASY"' in predicted_class:
-            SQL = None
-            while SQL is None:
-                try:
-                    SQL = GPT_generation(easy_prompt_maker(row['question'], row['db_id'], schema_links))
-                except:
-                    # print('retry')
-                    time.sleep(0.5)
-                    pass
-        elif '"NON-NESTED"' in predicted_class:
-            SQL = None
-            while SQL is None:
-                try:
-                    SQL = GPT_generation(medium_prompt_maker(row['question'], row['db_id'], schema_links))
-                except:
-                    # print('retry')
-                    time.sleep(0.5)
-                    pass
-        else:
+            print("SQL slicing error")
+            # SQL = "SELECT"
+    else:
+        try:
             sub_questions = classification.split('questions = ["')[1].split('"]')[0]
-            SQL = None
-            while SQL is None:
-                try:
-                    SQL = GPT_generation(
-                        hard_prompt_maker(row['question'], row['db_id'], schema_links, sub_questions))
-                except:
-                    # print('retry')
-                    time.sleep(0.5)
-                    pass
-        gpt_answers = {}
-        gpt_answers['db_id'] = row['db_id']
-        gpt_answers['question'] = row['question']
-        gpt_answers['gold'] = row['query']
-        gpt_answers['gpt_answers1'] = SQL
-        print(gpt_answers)
-        CODEX.append(gpt_answers)
-
-    print(CODEX)
-    with open(OUTPUT_SQLS_FILE, 'w') as out:
-        json.dump(CODEX, out)
-
-
-def debug_sqls(start, end):
-    val_df = load_data(DATASET)
-    print(f"Number of data samples {val_df.shape[0]}")
-
-    with open(OUTPUT_SQLS_FILE) as f:
-        sqls_all = json.load(f)
+        except:
+            sub_questions = item['question']
+        print("NESTED")
+        SQL = None
+        while SQL is None:
+            try:
+                SQL = GPT4_generation(
+                    hard_prompt_maker(item['question'], item['db_id'], schema_links, sub_questions))
+            except:
+                print('retry')
+                time.sleep(0.5)
+                pass
+        try:
+            SQL = SQL.split("SQL: ")[1]
+        except:
+            print("SQL slicing error")
+            # SQL = "SELECT"
+    SQL = SQL.strip("```sql").strip("```").strip()
+    if SQL == "":
+        SQL = "sql placeholder"
+    print(SQL)
+    with open("reproduced/original_train_dev_nlq_fixed.tsv", "a+") as f:
+        f.write(str(item["id"]) + "\t" + SQL + "\n")
 
 
-    CODEX = []
-    for index, row in val_df.iterrows():
-        if index < start or index > end:
-            continue
-
-        sqls = sql_pattern.findall(sqls_all[index]['gpt_answers1'])
-        debug_sqls = []
-        for SQL in sqls:
-            debugged_SQL = None
-            while debugged_SQL is None:
-                try:
-                    if SQL is None or SQL == '':
-                        SQL = "SELECT"
-                    debugged_SQL = GPT_debug(debuger(row['question'], row['db_id'], SQL)).replace("\n", " ")
-                except:
-                    print('retry')
-                    time.sleep(0.5)
-                    pass
-            SQL = "SELECT " + debugged_SQL
-            debug_sqls.append(SQL)
-
-        debug_answers = {}
-        debug_answers['db_id'] = sqls_all[index]['db_id']
-        debug_answers['question'] = sqls_all[index]['question']
-        debug_answers['gold'] = sqls_all[index]['gold']
-        debug_answers['debug_answers1'] = debug_sqls
-        print(debug_answers)
-        CODEX.append(debug_answers)
-
-    print(CODEX)
-    with open(OUTPUT_DEBUG_SQLS_FILE, 'w') as out:
-        json.dump(CODEX, out)
-
-
-
-if __name__ == '__main__':
-    start = 0
-    end = 49
-    spider_schema, spider_primary, spider_foreign = creatiing_schema(DATASET_SCHEMA)
-    # get_schema_links(start, end)
-    # get_classification(start, end)
-    # get_sqls(start, end)
-    debug_sqls(start, end)
+schema_path = "data/spider/metadata_opt/tables.json"
+dev_path = "data/spider/metadata_opt/nlq_checked/dev.json"
+if __name__ == "__main__":
+    start_id = 0
+    end_id = 1034
+    spider_schema, spider_primary, spider_foreign = creatiing_schema(schema_path)
+    with open(dev_path, "r") as f:
+        dev_cases = json.load(f)
+        for i, item in enumerate(dev_cases):
+            if start_id <= i <= end_id:
+                print(i)
+                generate_gpt_sql_answers(item)

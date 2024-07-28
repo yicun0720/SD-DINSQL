@@ -1,8 +1,11 @@
+import json
+
 import pandas as pd
 import time
 import openai
 import os
 import regex as re
+from tqdm import tqdm
 
 # ----------------------------------------------------prompts-----------------------------------------------
 schema_linking_prompt = '''Table advisor, columns = [*,s_ID,i_ID]
@@ -252,11 +255,7 @@ SQL: SELECT building ,  room_number FROM classroom WHERE capacity BETWEEN 50 AND
 
 Q: "Give the name of the student in the History department with the most credits."
 Schema_links: [student.name,student.dept_name,student.tot_cred,History]
-SQL: SELECT name FROM student WHERE dept_name  =  'History' ORDER BY tot_cred DESC LIMIT 1
-
-Q: "Find the total budgets of the Marketing or Finance department."
-Schema_links: [department.budget,department.dept_name,Marketing,Finance]
-SQL: SELECT sum(budget) FROM department WHERE dept_name  =  'Marketing' OR dept_name  =  'Finance'
+SQL: SELECT name FROM student WHERE dept_name = 'History' AND tot_cred = (SELECT MAX(tot_cred) FROM student WHERE dept_name = 'History')
 
 Q: "Find the department name of the instructor whose name contains 'Soisalon'."
 Schema_links: [instructor.dept_name,instructor.name,Soisalon]
@@ -264,7 +263,7 @@ SQL: SELECT dept_name FROM instructor WHERE name LIKE '%Soisalon%'
 
 Q: "What is the name of the department with the most credits?"
 Schema_links: [course.dept_name,course.credits]
-SQL: SELECT dept_name FROM course GROUP BY dept_name ORDER BY sum(credits) DESC LIMIT 1
+SQL: WITH total AS (SELECT dept_name, SUM(credits) AS credits FROM course GROUP BY dept_name) SELECT dept_name FROM total WHERE credits = (SELECT MAX(credits) FROM total)
 
 Q: "How many instructors teach a course in the Spring of 2010?"
 Schema_links: [teaches.ID,teaches.semester,teaches.YEAR,Spring,2010]
@@ -276,7 +275,7 @@ SQL: SELECT name ,  dept_name FROM student ORDER BY tot_cred
 
 Q: "Find the year which offers the largest number of courses."
 Schema_links: [SECTION.YEAR,SECTION.*]
-SQL: SELECT YEAR FROM SECTION GROUP BY YEAR ORDER BY count(*) DESC LIMIT 1
+SQL: WITH total AS (SELECT YEAR, COUNT(*) AS num FROM SECTION GROUP BY YEAR) SELECT YEAR FROM total WHERE num = (SELECT MAX(num) FROM total)
 
 Q: "What are the names and average salaries for departments with average salary higher than 42000?"
 Schema_links: [instructor.dept_name,instructor.salary,42000]
@@ -288,7 +287,7 @@ SQL: SELECT count(*) ,  building FROM classroom WHERE capacity  >  50 GROUP BY b
 
 Q: "Find the names of the top 3 departments that provide the largest amount of courses?"
 Schema_links: [course.dept_name,course.*]
-SQL: SELECT dept_name FROM course GROUP BY dept_name ORDER BY count(*) DESC LIMIT 3
+SQL: WITH total AS (SELECT dept_name, COUNT(*) AS amount FROM course GROUP BY dept_name) SELECT dept_name FROM total WHERE amount IN (SELECT amount FROM total ORDER BY amount DESC LIMIT 3)
 
 Q: "Find the maximum and average capacity among rooms in each building."
 Schema_links: [classroom.building,classroom.capacity]
@@ -305,12 +304,6 @@ A: Let’s think step by step. For creating the SQL for the given question, we n
 Intermediate_representation: select sum(department.budget) from department  where  department.dept_name = \"Marketing\"  or  department.dept_name = \"Finance\"
 SQL: SELECT sum(budget) FROM department WHERE dept_name  =  'Marketing' OR dept_name  =  'Finance'
 
-Q: "Find the name and building of the department with the highest budget."
-Schema_links: [department.budget,department.dept_name,department.building]
-A: Let’s think step by step. For creating the SQL for the given question, we need to join these tables = []. First, create an intermediate representation, then use it to construct the SQL query.
-Intermediate_representation: select department.dept_name , department.building from department  order by department.budget desc limit 1
-SQL: SELECT dept_name ,  building FROM department ORDER BY budget DESC LIMIT 1
-
 Q: "What is the name and building of the departments whose budget is more than the average budget?"
 Schema_links: [department.budget,department.dept_name,department.building]
 A: Let’s think step by step. For creating the SQL for the given question, we need to join these tables = []. First, create an intermediate representation, then use it to construct the SQL query.
@@ -321,7 +314,7 @@ Q: "Find the total number of students and total number of instructors for each d
 Schema_links: [department.dept_name = student.dept_name,student.id,department.dept_name = instructor.dept_name,instructor.id]
 A: Let’s think step by step. For creating the SQL for the given question, we need to join these tables = [department,student,instructor]. First, create an intermediate representation, then use it to construct the SQL query.
 Intermediate_representation: "select count( distinct student.ID) , count( distinct instructor.ID) , department.dept_name from department  group by instructor.dept_name
-SQL: SELECT count(DISTINCT T2.id) ,  count(DISTINCT T3.id) ,  T3.dept_name FROM department AS T1 JOIN student AS T2 ON T1.dept_name  =  T2.dept_name JOIN instructor AS T3 ON T1.dept_name  =  T3.dept_name GROUP BY T3.dept_name
+SQL: SELECT count(DISTINCT T2.id), count(DISTINCT T3.id), T1.dept_name FROM department AS T1 LEFT JOIN student AS T2 ON T1.dept_name = T2.dept_name LEFT JOIN instructor AS T3 ON T1.dept_name = T3.dept_name GROUP BY T1.dept_name
 
 Q: "Find the title of courses that have two prerequisites?"
 Schema_links: [course.title,course.course_id = prereq.course_id]
@@ -332,8 +325,8 @@ SQL: SELECT T1.title FROM course AS T1 JOIN prereq AS T2 ON T1.course_id  =  T2.
 Q: "Find the name of students who took any class in the years of 2009 and 2010."
 Schema_links: [student.name,student.id = takes.id,takes.YEAR,2009,2010]
 A: Let’s think step by step. For creating the SQL for the given question, we need to join these tables = [student,takes]. First, create an intermediate representation, then use it to construct the SQL query.
-Intermediate_representation: select  distinct student.name from student  where  takes.year = 2009  or  takes.year = 2010
-SQL: SELECT DISTINCT T1.name FROM student AS T1 JOIN takes AS T2 ON T1.id  =  T2.id WHERE T2.YEAR  =  2009 OR T2.YEAR  =  2010
+Intermediate_representation: select student.name from student  where  takes.year = 2009  or  takes.year = 2010
+SQL: SELECT T1.name FROM student AS T1 WHERE T1.ID IN (SELECT T2.ID FROM takes AS T2 WHERE T2.YEAR = 2009 OR T2.YEAR = 2010)
 
 Q: "list in alphabetic order all course names and their instructors' names in year 2008."
 Schema_links: [course.title,course.course_id = teaches.course_id,teaches.id = instructor.id,instructor.name,teaches.year,2008]
@@ -352,17 +345,17 @@ SQL: SELECT T1.title FROM course AS T1 JOIN prereq AS T2 ON T1.course_id  =  T2.
 
 Q: "Find the name and building of the department with the highest budget."
 Schema_links: [department.dept_name,department.building,department.budget]
-A: Let's think step by step. "Find the name and building of the department with the highest budget." can be solved by knowing the answer to the following sub-question "What is the department name and corresponding building for the department with the greatest budget?".
-The SQL query for the sub-question "What is the department name and corresponding building for the department with the greatest budget?" is SELECT dept_name ,  building FROM department ORDER BY budget DESC LIMIT 1
+A: Let's think step by step. "Find the name and building of the department with the highest budget." can be solved by knowing the answer to the following sub-question "What is the greatest budget of departments?".
+The SQL query for the sub-question "What is the greatest budget of departments?" is SELECT MAX(budget) FROM department
 So, the answer to the question "Find the name and building of the department with the highest budget." is =
-Intermediate_representation: select department.dept_name , department.building from department  order by department.budget desc limit 1
-SQL: SELECT dept_name ,  building FROM department ORDER BY budget DESC LIMIT 1
+Intermediate_representation: select department.dept_name , department.building from department where @.@ = max ( department.budget )
+SQL: SELECT dept_name, building FROM department WHERE budget = (SELECT MAX(budget) FROM department)
 
 Q: "Find the title, credit, and department name of courses that have more than one prerequisites?"
 Schema_links: [course.title,course.credits,course.dept_name,course.course_id = prereq.course_id]
 A: Let's think step by step. "Find the title, credit, and department name of courses that have more than one prerequisites?" can be solved by knowing the answer to the following sub-question "What is the title, credit value, and department name for courses with more than one prerequisite?".
 The SQL query for the sub-question "What is the title, credit value, and department name for courses with more than one prerequisite?" is SELECT T1.title ,  T1.credits , T1.dept_name FROM course AS T1 JOIN prereq AS T2 ON T1.course_id  =  T2.course_id GROUP BY T2.course_id HAVING count(*)  >  1
-So, the answer to the question "Find the name and building of the department with the highest budget." is =
+So, the answer to the question "Find the title, credit, and department name of courses that have more than one prerequisites?" is =
 Intermediate_representation: select course.title , course.credits , course.dept_name from course  where  count ( prereq.* )  > 1  group by prereq.course_id 
 SQL: SELECT T1.title ,  T1.credits , T1.dept_name FROM course AS T1 JOIN prereq AS T2 ON T1.course_id  =  T2.course_id GROUP BY T2.course_id HAVING count(*)  >  1
 
@@ -395,8 +388,8 @@ Schema_links: [instructor.salary]
 A: Let's think step by step. "Find the salaries of all distinct instructors that are less than the largest salary." can be solved by knowing the answer to the following sub-question "What is the largest salary of instructors".
 The SQL query for the sub-question "What is the largest salary of instructors" is SELECT max(salary) FROM instructor
 So, the answer to the question "Find the salaries of all distinct instructors that are less than the largest salary." is =
-Intermediate_representation: select  distinct instructor.salary from instructor  where  @.@ < max ( instructor.salary )
-SQL: SELECT DISTINCT salary FROM instructor WHERE salary  <  (SELECT max(salary) FROM instructor)
+Intermediate_representation: select instructor.salary from instructor  where  @.@ < max ( instructor.salary )
+SQL: SELECT salary FROM instructor WHERE salary  <  (SELECT max(salary) FROM instructor)
 
 Q: "Find the names of students who have taken any course in the fall semester of year 2003."
 Schema_links: [student.id,student.name,takes.id,takes.semester,fall,2003]
@@ -428,18 +421,13 @@ A: Let's think step by step. "Give the title and credits for the course that is 
 The SQL query for the sub-question "What is the capacity of the largest room?" is (SELECT max(capacity) FROM classroom)
 So, the answer to the question "Give the title and credits for the course that is taught in the classroom with the greatest capacity." is =
 Intermediate_representation: select course.title , course.credits from classroom  order by classroom.capacity desc limit 1"
-SQL: SELECT T3.title ,  T3.credits FROM classroom AS T1 JOIN SECTION AS T2 ON T1.building  =  T2.building AND T1.room_number  =  T2.room_number JOIN course AS T3 ON T2.course_id  =  T3.course_id WHERE T1.capacity  =  (SELECT max(capacity) FROM classroom)
+SQL: SELECT T1.title, T1.credits FROM course AS T1 WHERE T1.course_id IN (SELECT T3.course_id FROM classroom AS T2 JOIN SECTION AS T3 ON T2.building = T3.building AND T2.room_number = T3.room_number WHERE T2.capacity = (SELECT max(capacity) FROM classroom))
 
 '''
-
-num_prompt = '# Please output %s candidate SQL queries for the next question that you think are the correct answers. These %s candidate SQL queries are allowed to vary a lot with each other in their syntax. List the %s queries one by one with each following the \'SQL $index:\' tag.\n'
-
-spider_schema, spider_primary, spider_foreign = None, None, None
 # ----------------------------------------------------------------------------------------------------------
-# API_KEY = "sb-fd357ca7cadfff86ad3840bfd045996b72a1c75449713c33"
-API_KEY = "123456"
-# openai.api_base = "https://api.openai-sb.com/v1"
-openai.api_base = "http://ipads.chat.gpt/v1"
+
+API_KEY = "sk-ayikqTDzWqhUEqYE6537B749B80c483a9950604d6402A562"
+openai.api_base = "http://10.0.0.103:3006/v1"
 os.environ["OPENAI_API_KEY"] = API_KEY
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -448,41 +436,35 @@ def load_data(DATASET):
     return pd.read_json(DATASET)
 
 
-def hard_prompt_maker(test_sample_text, database, schema_links, sub_questions, count):
-    instruction = "# Use the intermediate representation and the schema links to generate the SQL queries for each of the questions.\n"
+def hard_prompt_maker(test_sample_text, database, schema_links, sub_questions):
+    instruction = "# Use the intermediate representation and the schema links to generate the SQL queries for each of the questions.\n# List the answer without any explanation in one line in plain text form starting with \"SQL: \"\n"
     fields = find_fields_MYSQL_like("college_2")
     fields += "Foreign_keys = " + find_foreign_keys_MYSQL_like("college_2") + '\n'
     fields += find_fields_MYSQL_like(database)
     fields += "Foreign_keys = " + find_foreign_keys_MYSQL_like(database) + '\n'
     stepping = f'''\nA: Let's think step by step. "{test_sample_text}" can be solved by knowing the answer to the following sub-question "{sub_questions}".'''
     fields += "\n"
-    prompt = (instruction + fields + hard_prompt +
-              ((num_prompt % (count, count, count)) if count > 1 else '') +
-              'Q: "' + test_sample_text + '"' + '\nschema_links: ' + schema_links + stepping + '\nThe SQL query for the sub-question"')
+    prompt = instruction + fields + hard_prompt + 'Q: "' + test_sample_text + '"' + '\nschema_links: ' + schema_links + stepping + '\nThe SQL query for the sub-question"'
     return prompt
 
 
-def medium_prompt_maker(test_sample_text, database, schema_links, count):
-    instruction = "# Use the the schema links and Intermediate_representation to generate the SQL queries for each of the questions.\n"
+def medium_prompt_maker(test_sample_text, database, schema_links):
+    instruction = "# Use the the schema links and Intermediate_representation to generate the SQL queries for each of the questions.\n# List the answer without any explanation in one line in plain text form starting with \"SQL: \".\n"
     fields = find_fields_MYSQL_like("college_2")
     fields += "Foreign_keys = " + find_foreign_keys_MYSQL_like("college_2") + '\n'
     fields += find_fields_MYSQL_like(database)
     fields += "Foreign_keys = " + find_foreign_keys_MYSQL_like(database) + '\n'
     fields += "\n"
-    prompt = (instruction + fields + medium_prompt +
-              ((num_prompt % (count, count, count)) if count > 1 else '') +
-              'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nA: Let’s think step by step.')
+    prompt = instruction + fields + medium_prompt + 'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nA: Let’s think step by step.'
     return prompt
 
 
-def easy_prompt_maker(test_sample_text, database, schema_links, count):
-    instruction = "# Use the the schema links to generate the SQL queries for each of the questions.\n"
+def easy_prompt_maker(test_sample_text, database, schema_links):
+    instruction = "# Use the the schema links to generate the SQL queries for each of the questions.\n# List the answer without any explanation in one line in plain text form starting with \"SQL: \".\n"
     fields = find_fields_MYSQL_like("college_2")
     fields += find_fields_MYSQL_like(database)
     fields += "\n"
-    prompt = (instruction + fields + easy_prompt +
-              ((num_prompt % (count, count, count)) if count > 1 else '')
-              + 'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nSQL:')
+    prompt = instruction + fields + easy_prompt + 'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nSQL:'
     return prompt
 
 
@@ -541,7 +523,7 @@ def find_primary_keys_MYSQL_like(db_name):
     return output
 
 
-def creating_schema(DATASET_JSON):
+def creatiing_schema(DATASET_JSON):
     schema_df = pd.read_json(DATASET_JSON)
     schema_df = schema_df.drop(['column_names', 'table_names'], axis=1)
     schema = []
@@ -598,7 +580,7 @@ def debuger(test_sample_text, database, sql):
 
 def GPT4_generation(prompt):
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
+        model="gpt-4-turbo",
         messages=[{"role": "user", "content": prompt}],
         n=1,
         stream=False,
@@ -612,30 +594,7 @@ def GPT4_generation(prompt):
     return response['choices'][0]['message']['content']
 
 
-def GPT4_debug(prompt):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
-        messages=[{"role": "user", "content": prompt}],
-        n=1,
-        stream=False,
-        temperature=0.0,
-        max_tokens=1500,
-        top_p=1.0,
-        frequency_penalty=0.0,
-        presence_penalty=0.0,
-        stop=[";", "\n\n"]
-    )
-    return response['choices'][0]['message']['content']
-
-
-sql_pattern = re.compile(r'(?:SQL \d+:)(.*)')
-
-
-def generate_gpt_sql_answers(item: dict, count: int, schema='data/spider/tables.json') -> list:
-    global spider_schema, spider_primary, spider_foreign
-    spider_schema, spider_primary, spider_foreign = creating_schema(schema)
-
-    # print(item['query'])
+def generate_gpt_sql_answers(item: dict) -> list:
     print(item['question'])
     schema_links = None
     while schema_links is None:
@@ -673,17 +632,21 @@ def generate_gpt_sql_answers(item: dict, count: int, schema='data/spider/tables.
         SQL = None
         while SQL is None:
             try:
-                SQL = GPT4_generation(easy_prompt_maker(item['question'], item['db_id'], schema_links, count))
+                SQL = GPT4_generation(easy_prompt_maker(item['question'], item['db_id'], schema_links))
             except:
                 print('retry')
                 time.sleep(0.5)
                 pass
+            try:
+                SQL = SQL.split("SQL: ")[1]
+            except:
+                print("SQL slicing error")
     elif '"NON-NESTED"' in predicted_class:
         print("NON-NESTED")
         SQL = None
         while SQL is None:
             try:
-                SQL = GPT4_generation(medium_prompt_maker(item['question'], item['db_id'], schema_links, count))
+                SQL = GPT4_generation(medium_prompt_maker(item['question'], item['db_id'], schema_links))
             except:
                 print('retry')
                 time.sleep(0.5)
@@ -692,15 +655,18 @@ def generate_gpt_sql_answers(item: dict, count: int, schema='data/spider/tables.
             SQL = SQL.split("SQL: ")[1]
         except:
             print("SQL slicing error")
-            SQL = "SELECT"
+            # SQL = "SELECT"
     else:
-        sub_questions = classification.split('questions = ["')[1].split('"]')[0]
+        try:
+            sub_questions = classification.split('questions = ["')[1].split('"]')[0]
+        except:
+            sub_questions = item['question']
         print("NESTED")
         SQL = None
         while SQL is None:
             try:
                 SQL = GPT4_generation(
-                    hard_prompt_maker(item['question'], item['db_id'], schema_links, sub_questions, count))
+                    hard_prompt_maker(item['question'], item['db_id'], schema_links, sub_questions))
             except:
                 print('retry')
                 time.sleep(0.5)
@@ -709,32 +675,24 @@ def generate_gpt_sql_answers(item: dict, count: int, schema='data/spider/tables.
             SQL = SQL.split("SQL: ")[1]
         except:
             print("SQL slicing error")
-            SQL = "SELECT"
-    result = []
-    if count > 1:
-        SQLs = sql_pattern.findall(SQL)
-        for SQL in SQLs:
-            debugged_SQL = None
-            while debugged_SQL is None:
-                try:
-                    if SQL is None or SQL == '':
-                        SQL = "SELECT"
-                    debugged_SQL = GPT4_debug(debuger(item['question'], item['db_id'], SQL)).replace("\n", " ")
-                except:
-                    print('retry')
-                    time.sleep(0.5)
-                    pass
-            SQL = "SELECT " + debugged_SQL
-            result.append(SQL)
-    else:
-        debugged_SQL = None
-        while debugged_SQL is None:
-            try:
-                debugged_SQL = GPT4_debug(debuger(item['question'], item['db_id'], SQL)).replace("\n", " ")
-            except:
-                print('retry')
-                time.sleep(0.5)
-                pass
-        SQL = "SELECT " + debugged_SQL
-        result.append(SQL)
-    return result
+            # SQL = "SELECT"
+    SQL = SQL.strip("```sql").strip("```").strip()
+    if SQL == "":
+        SQL = "sql placeholder"
+    print(SQL)
+    with open("reproduced/original_train_dev_nlq_fixed.tsv", "a+") as f:
+        f.write(str(item["id"]) + "\t" + SQL + "\n")
+
+
+schema_path = "data/spider/metadata_opt/tables.json"
+dev_path = "data/spider/metadata_opt/nlq_checked/dev.json"
+if __name__ == "__main__":
+    start_id = 0
+    end_id = 1034
+    spider_schema, spider_primary, spider_foreign = creatiing_schema(schema_path)
+    with open(dev_path, "r") as f:
+        dev_cases = json.load(f)
+        for i, item in enumerate(dev_cases):
+            if start_id <= i <= end_id:
+                print(i)
+                generate_gpt_sql_answers(item)
