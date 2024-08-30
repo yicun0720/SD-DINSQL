@@ -1,3 +1,4 @@
+import argparse
 import json
 
 import pandas as pd
@@ -533,7 +534,7 @@ def find_primary_keys_MYSQL_like(db_name):
     return output
 
 
-def creatiing_schema(DATASET_JSON):
+def creating_schema(DATASET_JSON):
     schema_df = pd.read_json(DATASET_JSON)
     schema_df = schema_df.drop(['column_names', 'table_names'], axis=1)
     schema = []
@@ -686,23 +687,31 @@ def generate_gpt_sql_answers(item: dict) -> list:
         except:
             print("SQL slicing error")
             # SQL = "SELECT"
-    SQL = SQL.strip("```sql").strip("```").strip()
+    if SQL.startswith('```sql'):
+        SQL = SQL[5:]
+    if SQL.endswith('```'):
+        SQL = SQL[:-3]
+    SQL = SQL.strip()
     if SQL == "":
         SQL = "sql placeholder"
     print(SQL)
-    with open("reproduced/original_train_dev_nlq_fixed.tsv", "a+") as f:
+    with open("result/original_prompt.tsv", "a+") as f:
         f.write(str(item["id"]) + "\t" + SQL + "\n")
 
 
-schema_path = "data/spider/metadata_opt/tables.json"
-dev_path = "data/spider/metadata_opt/nlq_checked/dev.json"
 if __name__ == "__main__":
-    start_id = 0
-    end_id = 1034
-    spider_schema, spider_primary, spider_foreign = creatiing_schema(schema_path)
-    with open(dev_path, "r") as f:
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--start_id", type=int, default=-1)
+    parser.add_argument("--end_id", type=int, default=-1)
+    parser.add_argument("--schema_path", type=str, required=True)
+    parser.add_argument("--dev_path", type=str, required=True)
+
+    args = parser.parse_args()
+    spider_schema, spider_primary, spider_foreign = creating_schema(args.schema_path)
+    with open(args.dev_path, "r") as f:
         dev_cases = json.load(f)
         for i, item in enumerate(dev_cases):
-            if start_id <= i <= end_id:
+            if args.start_id <= i <= args.end_id:
                 print(i)
                 generate_gpt_sql_answers(item)

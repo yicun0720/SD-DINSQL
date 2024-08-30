@@ -1,3 +1,6 @@
+import argparse
+import json
+
 import pandas as pd
 import time
 import openai
@@ -422,12 +425,11 @@ SQL: SELECT T1.title, T1.credits FROM course AS T1 WHERE T1.course_id IN (SELECT
 
 '''
 
-num_prompt = '# Please output %s candidate SQL queries for the next question that you think are the correct answers. These %s candidate SQL queries are allowed to vary a lot with each other in their syntax. List the %s queries one by one with each following the \'SQL $index:\' tag.\n'
+num_prompt = '# Please provide %s candidate SQL queries for the next question that you believe are the correct answers. These candidate SQL queries are encouraged to differ greatly from each other in their syntax structures and used keywords. List the %s candidate SQL queries one by one in a JSON format in plain text with a key \"answers\". The JSON format should be like: {\"answers\": [\"SELECT...\", \"SELECT...\", ..., \"SELECT...\"] } \n'
 
-spider_schema, spider_primary, spider_foreign = None, None, None
 # ----------------------------------------------------------------------------------------------------------
-API_KEY = "sb-fd357ca7cadfff86ad3840bfd045996b72a1c75449713c33"
-openai.api_base = "http://ipads.chat.gpt/v1"
+API_KEY = "sk-ayikqTDzWqhUEqYE6537B749B80c483a9950604d6402A562"
+openai.api_base = "http://10.0.0.103:3006/v1"
 os.environ["OPENAI_API_KEY"] = API_KEY
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -445,7 +447,7 @@ def hard_prompt_maker(test_sample_text, database, schema_links, sub_questions, c
     stepping = f'''\nA: Let's think step by step. "{test_sample_text}" can be solved by knowing the answer to the following sub-question "{sub_questions}".'''
     fields += "\n"
     prompt = (instruction + fields + hard_prompt +
-              ((num_prompt % (count, count, count)) if count > 1 else '') +
+              ((num_prompt % (count, count)) if count > 1 else '') +
               'Q: "' + test_sample_text + '"' + '\nschema_links: ' + schema_links + stepping + '\nThe SQL query for the sub-question"')
     return prompt
 
@@ -458,7 +460,7 @@ def medium_prompt_maker(test_sample_text, database, schema_links, count):
     fields += "Foreign_keys = " + find_foreign_keys_MYSQL_like(database) + '\n'
     fields += "\n"
     prompt = (instruction + fields + medium_prompt +
-              ((num_prompt % (count, count, count)) if count > 1 else '') +
+              ((num_prompt % (count, count)) if count > 1 else '') +
               'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nA: Let’s think step by step.')
     return prompt
 
@@ -469,7 +471,7 @@ def easy_prompt_maker(test_sample_text, database, schema_links, count):
     fields += find_fields_MYSQL_like(database)
     fields += "\n"
     prompt = (instruction + fields + easy_prompt +
-              ((num_prompt % (count, count, count)) if count > 1 else '')
+              ((num_prompt % (count, count)) if count > 1 else '')
               + 'Q: "' + test_sample_text + '\nSchema_links: ' + schema_links + '\nSQL:')
     return prompt
 
@@ -586,7 +588,7 @@ def debuger(test_sample_text, database, sql):
 
 def GPT4_generation(prompt):
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
+        model="gpt-4-turbo",
         messages=[{"role": "user", "content": prompt}],
         n=1,
         stream=False,
@@ -600,30 +602,8 @@ def GPT4_generation(prompt):
     return response['choices'][0]['message']['content']
 
 
-def GPT4_debug(prompt):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
-        messages=[{"role": "user", "content": prompt}],
-        n=1,
-        stream=False,
-        temperature=0.0,
-        max_tokens=1500,
-        top_p=1.0,
-        frequency_penalty=0.0,
-        presence_penalty=0.0,
-        stop=[";", "\n\n"]
-    )
-    return response['choices'][0]['message']['content']
-
-
-sql_pattern = re.compile(r'(?:SQL \d+:)(.*)')
-
-
-def generate_gpt_sql_answers(item: dict, count: int, schema='data/spider/tables.json') -> list:
-    global spider_schema, spider_primary, spider_foreign
-    spider_schema, spider_primary, spider_foreign = creating_schema(schema)
-
-    # print(item['query'])
+result = []
+def generate_gpt_sql_answers(item: dict, count: int):
     print(item['question'])
     schema_links = None
     while schema_links is None:
@@ -680,9 +660,12 @@ def generate_gpt_sql_answers(item: dict, count: int, schema='data/spider/tables.
             SQL = SQL.split("SQL: ")[1]
         except:
             print("SQL slicing error")
-            SQL = "SELECT"
+            # SQL = "SELECT"
     else:
-        sub_questions = classification.split('questions = ["')[1].split('"]')[0]
+        try:
+            sub_questions = classification.split('questions = ["')[1].split('"]')[0]
+        except:
+            sub_questions = item["question"]
         print("NESTED")
         SQL = None
         while SQL is None:
@@ -697,32 +680,30 @@ def generate_gpt_sql_answers(item: dict, count: int, schema='data/spider/tables.
             SQL = SQL.split("SQL: ")[1]
         except:
             print("SQL slicing error")
-            SQL = "SELECT"
-    result = []
-    if count > 1:
-        SQLs = sql_pattern.findall(SQL)
-        for SQL in SQLs:
-            debugged_SQL = None
-            while debugged_SQL is None:
-                try:
-                    if SQL is None or SQL == '':
-                        SQL = "SELECT"
-                    debugged_SQL = GPT4_debug(debuger(item['question'], item['db_id'], SQL)).replace("\n", " ")
-                except:
-                    print('retry')
-                    time.sleep(0.5)
-                    pass
-            SQL = "SELECT " + debugged_SQL
-            result.append(SQL)
-    else:
-        debugged_SQL = None
-        while debugged_SQL is None:
-            try:
-                debugged_SQL = GPT4_debug(debuger(item['question'], item['db_id'], SQL)).replace("\n", " ")
-            except:
-                print('retry')
-                time.sleep(0.5)
-                pass
-        SQL = "SELECT " + debugged_SQL
-        result.append(SQL)
-    return result
+            # SQL = "SELECT"
+    sql_json_ans = SQL[SQL.index('{'): SQL.rindex('}') + 1]
+    sql_json_ans = json.loads(sql_json_ans)
+    sqls = sql_json_ans['answers']
+    case = {"id": item["id"], "db_id": item["db_id"], "infer_predictions": [sqls]}
+    result.append(case)
+    with open(f"result/multiple_preds.json", "w") as f:
+        json.dump(result, f, indent=2)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--start_id", type=int, default=-1)
+    parser.add_argument("--end_id", type=int, default=-1)
+    parser.add_argument("--schema_path", type=str, required=True)
+    parser.add_argument("--dev_path", type=str, required=True)
+    parser.add_argument("--count", type=str, default=10)
+
+    args = parser.parse_args()
+    spider_schema, spider_primary, spider_foreign = creating_schema(args.schema_path)
+    with open(args.dev_path, "r") as f:
+        dev_cases = json.load(f)
+        for i, item in enumerate(dev_cases):
+            if args.start_id <= i <= args.end_id:
+                print(i)
+                generate_gpt_sql_answers(item, args.count)
